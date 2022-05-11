@@ -89,22 +89,33 @@ El desarrollo historico de lo que conocemos como Aprendizaje Profundo esta dado 
 
 **Primera ola:**.     
 
-Cibernética (1940-1960, Rosenblatt 1958). Impulsado por la teoría de aprendizaje Biológico. Nace el Modelo Perceptrón., que es el primer modelo de una sola neurona capaz de aprender de los datos.
-
+Cibernética (1940-1960, Rosenblatt 1958). Impulsado por la teoría de aprendizaje Biológico. Nace el Modelo Perceptrón., que es el primer modelo de una sola neurona capaz de aprender de los datos. (Ejemplo Interactivo [](http://163.10.22.82/OAS/perceptron/el_modelo_del_perceptrn.html)
 ![0_wOYoifz24Wz_I152](figures/0_wOYoifz24Wz_I152.png)
 
 https://medium.com/@jayeshbahire/the-xor-problem-in-neural-networks-50006411840b
 
+![estructura](figures/estructura_perceptron.pdf)
 
+El algoritmo de aprendizaje del perceptrón consiste en:
 
-(Minsky and Papert, 1969) Estos modelos lineales tienen limitaciones. La limitación que desanimó el estudio de estos modelos es la incapacidad de resolver la función XOR. 
+1. Definir el conjunto de entrenamiento e identificar las variables dependientes (etiquetas) e independientes. $(y = f(\mathbf{x}))$
+2. Inicializar un conjunto de pesos $\mathbf{w}$.
+3. Por cada muestra en el conjunto de entrenamiento, revisar si la salida del perceptrón coincide con $y$.
+	1.  Si la salida es incorrecta se reajustan los pesos  $\mathbf{w}$, si no, se dejan como están.
+
+![Algoritmo Perceptron](figures/algoritmo_perceptron.png)
+	
+
+(Minsky and Papert, 1969) Estos modelos lineales tienen limitaciones. La limitación que desanimó el estudio de estos modelos es la incapacidad de resolver la clasificación de clases definidas por del operador binario lógico XOR, las cuales son no linealmente separables.
 
 ![0_qdRb80zUpJPtrbRD](figures/0_qdRb80zUpJPtrbRD.gif)
 
 
-**Tabla de verdad de la operación lógica xor**
+**Tabla de verdad de la operación lógica XOR**
 
 ```
+  a XOR b 
+===========		
 0 xor 0 = 0
 
 0 xor 1 = 1
@@ -115,60 +126,116 @@ https://medium.com/@jayeshbahire/the-xor-problem-in-neural-networks-50006411840b
 
 ```
 
+El problema del operador XOR es que es us un operador compuesto dada por la tabla de verdad:
+
+```
+a XOR b = (a AND NOT b) or ( b AND NOT a)
+
+Primero tenemos que resolver la clasificacion dada por (a AND NOT b)
+
+(a AND NOT b)
+
+a | b | a AND NOT b 
+------
+0   0 | 0
+0   1 | 0
+1   1 | 0
+1   0 | 1 
+
+a | b | b AND NOT a 
+------
+0   0 | 0
+0   1 | 1
+1   1 | 0
+1   0 | 0 
+
+
+
+
+```
+
+
+
+
 **Segunda ola** 
 
-Conexionismo: (1980-1995, Rumelhart ) Impulsado por por red neuronal con una o dos capas ocultas que resuelve el problema del XOR agregando con una neurona de activación
-<img src="figures/0_158hcRQzzw_wpEZW.png" alt="0_158hcRQzzw_wpEZW" style="zoom:50%;" />
+Conexionismo: (1980-1995, Rumelhart ) Impulsado por por red neuronal con una o dos capas ocultas con funciones de activación no lineales que resuelve el problema del XOR.
+<img src="figures/0_158hcRQzzw_wpEZW.png" alt="0_158hcRQzzw_wpEZW" style="zoom:80%;" /> 
 
-la idea principal es que unidades de procesamiento simples (neuronas) interactuando entre ellas, genera un comportamiento complejo e inteligente. 
+la idea principal es que unidades de procesamiento simples (neuronas) interactuando entre ellas, genera un comportamiento complejo e inteligente. Se tiene exito con funciones de activación sigmoidales.
 
 En esta ola se introduce el concepto de **Representación Distribuida** (Hinton et al., 1986) y el algoritmo de Propagación Hacia atrás.
 
+Se implementa el algoritmo de algoritmo descendente para el entrenamiento de estas redes. Este algoritmo depende de la derivada para decidir hacia donde mover los pesos $\mathbf{w}$. Su éxito en la práctica se debe al algoritmo de propagación hacia atrás que calcula de manera eficiente y automatizada la derivada parcial numérica para redes de propagación hacia adelante con un gran numero de neuronas.
 
 
-La segunda ola termina con Hochreiter (1991) y Bengio et al. (1994). Ellos Identificaron otro problema con el aprendizaje profundo que es el modelado de secuencias muy largas. 
+
+Problemas:
+
+Este esquema no escala con el tamaño de las redes neuronales de propagación hacia adelante y gran cantidad de datos.
+
+La segunda ola termina con Hochreiter (1991) y Bengio et al. (1994). Ellos Identificaron otro problema con el aprendizaje profundo que es el modelado de secuencias muy largas.
+
+
+
 
 **Tercera ola: 1995**
 
-Para esto Hochreiter y Schmidhuber (1997) propusieron  the long short-term memory (LSTM) para resolver estos problemas. LTSM es una red neuronal recurrente que incorpora una operación para definir el qué tanto importa recordar la información para hacer una Clasificación o regresión.
-
-![The_LSTM_Cell.svg](figures/The_LSTM_Cell.svg.png)
-
-
-También el aprendizaje profundo (Deep Learning), fué Impulsado por la implementación exitosa de Redes Neuronales Multi-Capa y algoritmo De Gradiente Estocástico Descendente.
-
+Fué impulado por solucionar el problema de entrenar redes neuronales multicapa.
 
 
 <img src="figures/DFFN.png" alt="DFFN" style="zoom:50%;" />
 
+Se implementando el algoritmo de gradiente descendente estocástico con funciones de activación relu.
 
 
-<img src="figures/redesTopologia.jpg" alt="redesTopologia" style="zoom:50%;" />
+<img src="figures/relu-soft.png" alt="relusoft" style="zoom:50%;" />
 
-Hochreiter (1991) y Bengio et al. (1994), Se identifico otro problema con el aprendizaje profundo que eses el modelado de secuencias muy largas, para esto Hochreiter y Schmidhuber (1997) propusieron  the long short-term memory (LSTM) para resolver estos problemas. LTSM es una red neuronal recurrente que incorpora una operación para definir el qué tanto importa recordar la información para hacer una Clasificación o regresión.
+Hochreiter (1991) y Bengio et al. (1994), Se identifico otro problema con el aprendizaje profundo en redes neuronales recurrentes, que es el modelado de secuencias identificando asociaciones al largo plazo, para esto Hochreiter y Schmidhuber (1997) propusieron  the long short-term memory (LSTM) para resolver estos problemas. LTSM es una red neuronal recurrente que incorpora una operación para definir el qué tanto importa recordar la información reciente y a largo plazo para hacer una Clasificación o regresión.
+
+
 
 ![The_LSTM_Cell.svg](figures/The_LSTM_Cell.svg.png)
 
 
+Las redes neuronales recurrentes aunque en teoría deben ser buenas para aprender a recordar información a largo plazo, la persistencia de esta no regulada no ayuda en la práctica como en aplicaciones como, 
+
+1. Procesamiento de lenguaje natural
+2. Series de tiempo (Sistemas dinámicos variantes en el tiempo)*
+3. Clasificación dependiente del tiempo.
+4. Reconocimiento de imágenes.
+
+Por ejemplo, 
+
+LSTM es capaz de completar una frase coherenemente como
+
+Hola soy Esteban, estudio Geoinformática en centrogeo.... y me gusta_____ 
+
+a) programar
+b) cabalgar
+c) estudiar
+d) caminar
+
+**Motivación Grafica sobre el estudio de aprendizje profundo**
+<img src="figures/redesTopologia.jpg" alt="redesTopologia" style="zoom:80%;" />
 
 
 
-<img src="figures/venn diagram.png" alt="venn diagram" style="zoom:20%;" />
+<img src="figures/venn diagram.png" alt="venn diagram" style="zoom:80%;" />
 
 Deep Learning son un tipo de aprendizaje automático que, ademas de encontrar una función de mapeo para asociar un conjunto de características $\mathbf{x}$ con una salida datos ($\mathbf{y}$), internamente logran aprender como representar esos datos.  
 
 
 
-<img src="figures/deeplearning.png" alt="deeplearning" style="zoom:25%;" />
+<img src="figures/deeplearning.png" alt="deeplearning" style="zoom:100%;" />
 
 
+Técnicas modernas y prolemas de AP, se nutren de muchas otras áreas, como 
 
-Técnicas modernas de AP, toman ideas de muchas otras áreas, como 
-
-* Álgebra Lineal
-* Probabilidad
-* Teoría de la información
-* Optimización Numérica
+* Álgebra Lineal. 
+* Probabilidad.
+* Teoría de la información.
+* Optimización Numérica.
 
 
 ## Tipos de Aprendizaje automático
@@ -274,183 +341,12 @@ donde $c\in \{1,\dots,C\}$
 * Predecir la temperatura dentro de una locación, utilizando datos atmosféricos, hora del día, materiales de construcción, sensores  etc...
 * Predicción de concentraciones de contaminantes.
 
-### Descubrimiento de agrupamientos:
-El descubrimiento de agrupamiento (o clustering) tiene dos objetivos.
-  * Objetivo 1.  Estimar la distribución de probabilidad de un conjunto de datos $D$ con $K$ grupos. Esto se puede expresar como la probabilidad de tener $K$ grupos dado un conjunto de datos $D$
 
-$$p(K|D)$$
+**Aprendizaje Semi Supervisado**
 
-Para encontrar $K$, se requiere una manera de medir el ajuste de los datos los diferentes $K$ grupos, hasta maximizar la probabilidad de que el conjunto de datos $D$ sea generado por una distribución de probabilidad.
 
-$K^* = \underset{ K }{argmax } \text{ } p(K|D)$
 
-Objetivo 2:  Estimar a qué grupo pertenece un dato. 
-
-Por ejemplo haciendo $z_i \in\{1,\dots,K\}$, donde cada punto o dato $i$, es asignado a una de esas clases. 
-
-Como $z_i$ es una variable calculada y no existe en los datos de entrenamiento, a esta se le llama **Variable Latente**, o variable oculta.
-
-Se puede estimar o inferir a que clase pertenece calculando: 
-
-$$z_i^*=\underset{ K }{argmax } \text{ }  p(z_i=k|\mathbf{x}_i, D)$$,
-
-Que significa, calcular la clase $k$ que que maximiza la función de probabilidad dado un dato $\mathbf{x}_i$ en el conjunto de datos $D$
-
-Ejemplo:
-
-![Screen Shot 2021-02-23 at 20.41.29](figures/Screen Shot 2021-02-23 at 20.41.29.png)
-### Descubriendo variables (o factores latentes)
-
-
-* Útil cuando los datos son de dimensiones muy altas.
-
-* Es útil para conocer el subconjunto de variables de un vector de características que conservan la máxima información. (Podemos reconstruir la información a partir de información *clave*)
-
-* Se proyectan en un espacio de dimensión reducida $M: R^m \rightarrow R^{n}$
-
-* Por lo regular  2 <= n <=3 para poder analizar los datos visualmente.
-
-* Util para compresión de imágenes o aplicar algoritmos de agrupamiento.
-
-* Uno de los métodos mas utilizados es análisis de componentes principales o PCA.
-
-* ![Screen Shot 2021-02-23 at 20.41.44](figures/Screen Shot 2021-02-23 at 20.41.44.png)
-
-  
-
-  
-
-
-## Explicaciones conceptuales 
-
-### Modelos paramétricos y no paramétricos
-
-**Modelos paramétricos**. 
-
-* Son modelos que tienen un número fijo de parámetros independientemente de la cantidad de datos. 
-* Requiere un conocimiento sobre el fenómeno mas detallado.
-* Se apoya de suposiciones fuertes sobre los datos. (e.g. Datos distribuidos con cierta función de probabilidad)
-* Funciona bien con pocos datos.
-* No sufren de **sobre-ajuste**.
-
-Ejemplos  
-
-1. Regresión lineal.
-2. Estimación de distribuciones de probabilidad.    
-
- **Modelos No-paramétricos**: 
-
-* Los parámetros crecen con los datos.
-
-* Se requiere un conocimiento menos profundo sobre el fenómeno.
-
-* No requiere hacer suposiciones fuertes sobre los datos. 
-
-* Requiere muchos datos para tener buen desempeño
-
-* Sufren de sobre-ajuste 
-
-  
-
-  **Ejemplos:**
-
-  Redes neuronales (Supervisado)
-  
-  Redes neuronales convolucionales (Supervisado)
-  
-  $k$-vecinos cercanos (Supervisado)
-  
-  PCA (no-supervisado)
-  
-  Mapas auto-organizados (No paramétricos - No supervisados)
-  
-  
-
-
-
-Ademas de los modelos de clasifiación mencionados existen otros modelos clasificadores que también son de importancia en este curso
-
-* Mínima distancia
-* Modelo del Paralelepípedo
-* Árboles de clasificación
-* Clasificación por máxima verosimilitud
-
-### Ejemplos de Modelos paramétricos para clasificación.
-
-**Clasificador Lineal**
-
-Un clasificador lineal es una función de la forma 
-
-$$y = f( \mathbf{w}^T\mathbf{x} + b)$$
-
-donde , $\mathbf{w}$ es un vector de pesos, $\mathbf{x}$ es el vector de entrada y la función $f$ convierte el producto interno de los dos vectores en una salida. 
-
-la función $f$ toma valor de:
-
-* 1: si $\mathbf{w}^T\mathbf{x}+b > 0$, y
-*  $0$: de otra manera.
-
-Para el problema de clasificación de dos clases, el problema puede interpretarse como un hiperplano que divide el espacio de vectores de entrada $x$, en dos. Donde los valores que quedan de un lado del hiperplano son clasificados como positivos y lo que quedan debajo negativos
-
-![440px-Svm_separating_hyperplanes](figures/440px-Svm_separating_hyperplanes.png)
-
-
-
-**Regresión Logística**
-
-Es una generalización de la regresión lineal para clasificación binaria.
-
-La respuesta o salida $y$ de la función responde a una distribución de probabilidad de Bernoulli. 
-
-$$p(y|\mathbf{x,w}) = Ber (y| \mu(x)$$)
-
- donde la respuesta toma dos valores: $y\in\{0,1\}$. y $\mu(\mathbf{x}) = p(y=1|x)$  es la probabilidad de éxito dada una entrada $\mathbf{x}$.
-
-La función de distribución de probabilidad está dada por la función sigmoide:
-
-$$\mu(\mathbf{x})=\frac{1}{1+exp(\eta)}$$ 
-
-Acoplando  los términos en orden obtenemos la **regresión logística**
-
-$$p(y|\mathbf{x,w}) = Ber(y|sigm(\mathbf{w^Tx}))$$
-
-La distribución de probabilidad de Bernoulli es discreta y dicotómica que calcula la probabilidad de éxito. 
-
-Ejemplo:
-
-$$p(y_i=1|x_i,\mathbf{w}) = sigm(w_0+w_1x_i) $$
-
-es aplicado a definir si un estudiante pasa la prueba ($y=1$) o no ($y=0$) de acuerdo a su puntuación.
-
-Para esto a partir de los datos ($x_i$,$y_i$), donde $x\in R$ es la calificación o puntaje representado por el eje horizontal, y $y\in{0,1}$ (pasa o aprueba la clase), representado por el eje vertical. 
-
-Los puntos negros son los datos reales.
-
-Los rojos son salidas estimadas $p(y=1|\mathbf{x}_i,\hat{\mathbf{w}})$
-
-Si el umbral es mayor a 0.5 entonces la salida estimada será $\hat{y}(x) = p(y=1|\mathbf{x})>0.5 = 1$ 
-
- ![Screen Shot 2021-02-23 at 21.47.42](figures/Screen Shot 2021-02-23 at 21.47.42.png)
-
-
-
-
-
-### Ejemplo de modelo no paramétrico
-
-**$k$ vecinos cercanos**
-
-Este algoritmo consiste en buscar aquellos datos cercanos a un *dato de prueba* dado un radio $r$ o  vecindad $K$. Y regresa la proporción de clases encontradas. 
-
-Este algoritmo puede expresarse como
-
-$$p(y=c|\mathbf{x},D,K)=\frac{1}{K} \sum_{i\in N_k (\mathbf{x},D)} I(y_i=c)$$
-
-Donde $N_k(\mathbf{x},D)$ son los índices pertenecientes al vecindario.
-
-$I(e)$ es la función indicadora que devuelve $1$ si $e$ es verdadero y $0$ en caso contrario.
-
-con $K=1$ se genera un diagrama de Voronoi.
+**Aprendizaje por refuerzo**
 
 
 
