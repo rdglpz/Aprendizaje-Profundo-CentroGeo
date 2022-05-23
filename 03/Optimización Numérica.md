@@ -29,7 +29,7 @@ Con los números enteros es problemática la representación de números muy gra
 	
 
 
-$$\text{softmax}(\mathbf{x})_i \frac{\text{exp}(x_i)}{\sum_{j\in{\{1,\dots
+$$\text{softmax}(\mathbf{x})_i =  \frac{\text{exp}(x_i)}{\sum_{j\in{\{1,\dots
 ,n\}}} \text{exp}(x_i)}$$
 
 
