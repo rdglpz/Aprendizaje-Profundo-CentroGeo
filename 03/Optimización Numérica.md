@@ -5,7 +5,7 @@
 Los algoritmos de Aprendizaje automático resuelven problemas matemáticos a través del tratamiento numérico intensivo.
 
 Esto es que de manera no analítica tratan de resolver problemas de manera iterativa. 
-Se requieren repetir muchas veces una operación para encontrar o aproximar una solucion.
+Se requieren repetir muchas veces una operación para encontrar o aproximar una solución.
 
 
 Operaciones comunes que requieren uso intensivo de la computación numérica estan relacionadas con:
@@ -33,7 +33,7 @@ $$\text{softmax}(\mathbf{x})_i =  \frac{\text{exp}(x_i)}{\sum_{j\in{\{1,\dots
 ,n\}}} \text{exp}(x_i)}$$
 
 
-El cálculo incorrecto se puede dar cuando al menos un elemento de $\mathbf{x}$ es muy grande, generando un $\infty$ que es tratado como un $NaN$ y por lo tanto genera una multiplicación incorrecta en el denominador.
+El cálculo incorrecto se puede dar cuando al menos un elemento de $\mathbf{x}$ es muy grande, generando un $\infty$ que es tratado como un $NaN$ y por lo tanto genera una suma incorrecta en el denominador.
 
 La solución es cambiar la variable de tal manera que softmax no cambie su valor de salida. Esto es que:
 
@@ -59,7 +59,7 @@ En álgebra lineal, con la función $b = \mathbf{A}^{-1}{x}$ con $A\in {n \times
 
 $$\text{max}_{i,j} = |\lambda_i/\lambda_j|$$
 
-Si este número es grande, entonces la salida de  $\mathbf{A}^{-1}{x}$ es muy sensible al error $x$.
+E.g., si este número es grande, entonces la salida de  $\mathbf{A}^{-1}{x}$ es muy sensible al error de truncamiento en $x$.
 
 Esto es una propiedad matricial con la cual debe de lidiar el cómputo numérico. 
 
@@ -77,17 +77,39 @@ Usualmente los problemas se definen con respecto a la minimización, y para maxi
 $$\underset{x}{\text{max }} f(\mathbf{x}) = \underset{\mathbf{x}}{\text{min }} - f(\mathbf{x})$$
 
 
-La función  $f(\mathbf)$ que queremos optimizar se llama se le llama **función objetivo, criterio, función de costo, función de perdida, función de error**.
+La función  $f$ que queremos optimizar su valor se le llama **función objetivo, criterio, función de costo, función de perdida, función de error**.
 
-A veces nos initeresa mostrar el argumento que minimiza la función.
+A veces nos interesa mostrar el argumento que minimiza la función.
 
-$$\mathbf{x}^* = \underset{x}{\text{arg min }} f(\mathbf{x})$$
+$$\mathbf{x}^* = \underset{\mathbf{x}}{\text{arg min }} f(\mathbf{x})$$
 
-Hay dos tipos de optimización **Convexa y Global**
 
-En optimización **Global** queremos encontrar $f(x) < \forall x \neq x^*$.
+Hay dos tipos de optimización **Local y Global**
 
-En optimización **Convexa** queremos encontrar $f(x) < \{x: \forall x \neq x^* \wedge ||x-x^*|| < \epsilon \}$.
+En optimización **Local** queremos encontrar $ \{x^*: f(x^*) < f(x), \forall x, x \neq x^* \wedge ||x-x^*|| < \epsilon \}$.
+
+En optimización **Global** queremos encontrar $\{x^*: f(x^*) < f(x), \forall x, x \neq x^*$. \}
+
+
+
+Los problemas se pueden clasificar en **Convexos** y **No Convexos**). Estos se aplican a funciones y conjuntos.
+
+
+
+
+**Definición de un problema convexo.**
+
+Formalmente, para dos puntos  cualquiera $x_0,x_1$ en el conjunto $S$ , tenemos el conjunto de puntos definido por:
+
+$$\alpha x_0 + (1-\alpha)x_1 \in S \text{ para }  \alpha = [0,1]$$.
+
+Donde podemos decir si la función $f$ es convexa si cumple con la siguiente desigualdad
+
+$$f(\alpha x_0 + (1-\alpha)x_1) \leq \alpha f (x_0) + (1-\alpha)f(x_1), \\\text{ Para toda } \alpha \in [0,1]$$
+
+En los problemas convexos se tiene garantía que el óptimo local es también un óptimo global.
+
+No es así en los problemas no convexos como aquellos que se presentan en aprendizaje profundo. 
 
 El objetivo de los problemas de optimización es *mover* de la mejor manera $\mathbf{x}$ para encontrar el mínimo dado un problema de optimización.
 
@@ -130,17 +152,17 @@ Por lo que :
 
 $$x_{t+1} -   (x_t + \epsilon \cdot f(x_t)) =0 $$
 
-En aprendizaje automático buscaremos una minimización aproximada utilizando optimización local, la cual nos permita al menos obtener un muy buen optimo local.
+En aprendizaje automático buscaremos una solución, la cual nos permita al menos obtener un muy buen óptimo local.
 
 
-Optimizaremos funciones de multiples entreadas, una sola salida 
+Optimizaremos funciones de multiples entradas, una sola salida 
 
 $$f: \mathbf{R}^n \rightarrow \mathbf{R} $$.
 
 
 **Generalización de la derivada en dimensiones mayores a 1**
 
-cuando $\mathbf{x} \in \mathbf{R}^{n}$ necesitamos calcular las derivadas parciales $\frac{\partial}{\partial x_i} f(\mathbf{x})$de cada entrada $x_i \in \mathbf{x}$. con el objetivo de medir cuando cambia $f$ en funcion de una perturbación en $x_i$. El vector de estas derivadas parciales está dado por:
+Cuando $\mathbf{x} \in \mathbf{R}^{n}$ necesitamos calcular las derivadas parciales $\frac{\partial}{\partial x_i} f(\mathbf{x})$de cada entrada $x_i \in \mathbf{x}$. con el objetivo de medir cuando cambia $f$ en funcion de una perturbación en $x_i$. El vector de estas derivadas parciales está dado por:
 
 
 $$[\frac{\partial f(\mathbf{x})}{\partial x_0}, \frac{\partial f(\mathbf{x})}{\partial x_1},\dots \frac{\partial f(\mathbf{x})}{\partial x_{n-1}}]^T =\nabla_{\mathbf{x}} f(\mathbf{x}) $$
@@ -151,7 +173,7 @@ $$[\frac{\partial f(\mathbf{x})}{\partial x_0}, \frac{\partial f(\mathbf{x})}{\p
 Derivación del algoritmo.
 
 
-Para una sola dimensión es sencillo intuir que la dirección contraria a la derivada es donde se encuentra el descenso, pero para generalizar la idea en una función de mas de una dimensión la dirección que nos da el descenso mas pronunciado se encuentra de la siguiente forma.
+Para una sola dimensión es sencillo intuir que la dirección contraria a la derivada es donde se encuentra el descenso, pero para generalizar la idea en una función de mas de una dimensión la dirección que nos da el descenso mas pronunciado se prueba de la siguiente forma.
 
 Dada una función evaluada en $\mathbf{x}$, como $f(\mathbf{x})  \in R^n $, ¿A qué dirección se encuentra la pendiente mas pronunciada? 
 
@@ -163,11 +185,12 @@ donde
 * $\mathbf{u}$ es el vector unitario que nos indica la dirección a la cual se movería $\mathbf{x}$ 
 * $\alpha$ es un valor muy pequeño que tiende a 0.
 
-Primero resolvemos el límite 
+Primero Queremos resolver la expresión que nos da la pendiente para un desplazamiento muy pequeño $\alpha \rightarrow 0$ de $\mathbf{x}$ a una dirección $\mathbf{u}$. 
+
 
 $$\underset{\alpha \rightarrow 0}{\text{lim }} f(\mathbf{x} + \alpha \mathbf{u})$$
 
-Con la regla de la cadena hacemos
+Con la regla de la cadena hacemos cambio de variable:
 
 $$y = f(\mathbf{x}+\alpha \mathbf{u})$$
 
@@ -176,57 +199,90 @@ $$v = \mathbf{x}+\alpha \mathbf{u}$$
 
 $$y = f(\mathbf{v})$$
 
-Resolvemos 
+Resolvemos:
 
-$$\frac{\partial y}{\partial \alpha} = \frac{\partial y}{\partial v}  \frac{\partial v}{\partial \alpha}$$
+$$\frac{\partial y}{\partial \alpha} = \frac{\partial y}{\partial v}  \cdot \frac{\partial v}{\partial \alpha}$$
 
-$$= \nabla f(\mathbf{v}) \cdot \mathbf{u}$$
+$$= \nabla_{\mathbf{v}} f(\mathbf{v}) \cdot \mathbf{u}$$
 
-Reacomodando términos
+Equivalentemente sustituimos y reacomodamos términos en forma de multiplicación matricial.
 
-$$= \mathbf{u}^T \cdot \nabla f(\mathbf{\mathbf{x}+\alpha \mathbf{u}})  $$
+$$= \mathbf{u}^T  \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x}+\alpha \mathbf{u}})  $$
 
-Evaluamos para $\alpha =0$
+Evaluamos para $\alpha = 0$
 
-$$= \mathbf{u}^T \cdot \nabla f(\mathbf{\mathbf{x}})  $$
+$$= \mathbf{u}^T  \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x}})  $$
 
-Una vez que resolvimos el límite, el siguiente paso es encontrar la dirección del vector unitario que nos minimice la función :
+Una vez que resolvimos el límite, el siguiente paso es encontrar la dirección (dado por la dirección del vector unitario) que haga la función $f$ decremente lo más rápido. En otras palabras que nos minimice la expresión del gradiente.  
 
-$$\underset{\mathbf{u},  \mathbf{u}^T \mathbf{u} = 1	 }{\text{min }} = \mathbf{u}^T \cdot \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x}})  $$
+$$\underset{\mathbf{u},\mathbf{u}^T \mathbf{u} = 1}{\text{min }} = \mathbf{u}^T \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x}})  $$
 
-Esto es esquivalente a encontrar el ángulo que debe existir entre $\mathbf{u}$ y $ \nabla_{\mathbf{x} } f (\mathbf{x})$
+Esto es esquivalente a encontrar el ángulo que debe existir entre $\mathbf{u}$ y $ \nabla_{\mathbf{x} } f (\mathbf{x})$ que minimice la expresión anterior.
 
 Recordemos que el producto punto entre dos vectores, es igual a multiplicar su magnitud y el coseno del angulo entre ellos.
 
-$$\underset{\mathbf{u},  \mathbf{u}^T \mathbf{u} = 1	 }{\text{min }} =  || \mathbf{u}||_2 || \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x})}|| \text{ cos } \theta $$
-
-Como $\mathbf{u}^T \mathbf{u} =1$, y el gradiente no influye en el proceso de minimización por ser considerado constante. 
+$$\underset{\mathbf{u},\mathbf{u}^T \mathbf{u} = 1}{\text{min }}   || \mathbf{u}||_2 || \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x})}||_2 \text{ cos } \theta $$
 
 
+Recordemos que 
+$$||\mathbf{a}||_2 ||\mathbf{b}||_2 \text{ cos } \theta=  \frac{\mathbf{a} \cdot \mathbf{b}}{ ||\mathbf{a}||_2 ||\mathbf{b}||_2}$$
 
-$$\underset{\mathbf{u},  \mathbf{u}^T \mathbf{u} = 1	 }{\text{min }} =  \text{ cos } \theta = \frac{\mathbf{u} \cdot \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x})}}{||\mathbf{u}||_2 ||\nabla_{\mathbf{x}} f (\mathbf{x})||_2 }$$
 
-El vector $u$ que minimiza es aquel que genera un ángulo de 180 grados con respecto al vector de las derivadas parciales.
+Como $\mathbf{u}^T \mathbf{u} =1$, y el gradiente no influye en el proceso de minimización por ser considerada una expresión constante. 
+
+
+
+$$\underset{\mathbf{u},\mathbf{u}^T \mathbf{u} = 1	 }{\text{min }}   \frac{\mathbf{u} \cdot \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x})}}{||\mathbf{u}||_2 ||\nabla_{\mathbf{x}} f (\mathbf{x})||_2 }$$
+
+El vector $\mathbf{u}$ que minimiza es aquel que genera un ángulo de 180 grados ($2 \pi$) con respecto al vector de las derivadas parciales.
 
 A esto se le llama la **Derivada Direccional**.
 
 
-Por lo tanto la dirección donde se encuentra la pendiente mas pronunciada es justo en la dirección contraria del vector de derivadas parciales. 
+Por lo tanto la dirección donde se encuentra la pendiente en descenso mas pronunciada es justo en la dirección contraria del a la pendiente dada a la derivada  parciales o **Gradiente**. 
 
 
-$$x_{t+1} = x_{t} - \epsilon \nabla_\mathbf{x} f (\mathbf{x}) $$
+$$\mathbf{x}_{t+1} = \mathbf{x}_{t} - \epsilon \nabla_\mathbf{x} f (\mathbf{x}) $$
 
 Una estrategia para escoger $\epsilon$ es 
 
-1. escoger un valor muy pequeño
-2. Hacer búsueda lineal. ( probar diferentes valores de $\epsilon$ hasta obtener el valor mínim. 
+1. Escoger un valor muy pequeño.
+2. Hacer algún tipo de búsueda lineal.
 
-$$\underset{\epsilon}{\text{ min }} f(x_t - \epsilon \nabla_\mathbf{x} f (\mathbf{x}) )$$
+$$\underset{\epsilon, \epsilon \leq 1}{\text{ min }} f(\mathbf{x}_t - \epsilon \nabla_\mathbf{x} f (\mathbf{x}) )$$
 
 
-Tarea:
+## Tarea 2:
 
-Encontrar la dirección de máxima pendiente de la función $$f(\mathbf{x}) = x_1^2 +x_2^2$$ cuando $\mathbf{x} = [1,1]^T$
+2. Encontrar la dirección de máximo descenso de gradiente para $f(x)=x^4, x \in \mathbf{R}^1 $ utilizando la derivada direccional (40/100) cuando: 
+
+	1. $x = 1$. (5/100)
+	2. $x = 0$. (5/100)
+
+
+1. Encontrar la dirección de máxima pendiente de la función $$f(\mathbf{x}) = \sum_{i=1}^2x^2_i $$ utilizando la derivada parcial direccional cuando. (40/100)
+
+	1. $\mathbf{x} = [1,1]^T$ (5/100)
+	2. $\mathbf{x} = [0,0]^T$ (5/100)
+
+
+Entregar con portada que incluya.
+
+Maestría en Ciencias en Información Geoespacial.
+Materia: Aprendizaje Profundo
+Cuatrimestre: 
+Nombre:
+Número de tarea:
+Nombre del profesor:
+Fecha de entrega: 1 de junio 2022 
+
+La entrega debe incluir la desripción de la tarea indicando claramente los puntos tratados.
+
+Se puede entregar un escaneo o foto de su ejercicio en papel.
+
+
+
+
 
 
 
