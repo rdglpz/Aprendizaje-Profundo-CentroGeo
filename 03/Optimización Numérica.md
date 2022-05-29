@@ -252,33 +252,7 @@ Una estrategia para escoger $\epsilon$ es
 $$\underset{\epsilon, \epsilon \leq 1}{\text{ min }} f(\mathbf{x}_t - \epsilon \nabla_\mathbf{x} f (\mathbf{x}) )$$
 
 
-## Tarea 2:
 
-2. Encontrar la dirección de máximo descenso de gradiente para $f(x)=x^4, x \in \mathbf{R}^1 $ utilizando la derivada direccional (40/100) cuando: 
-
-	1. $x = 1$. (5/100)
-	2. $x = 0$. (5/100)
-
-
-1. Encontrar la dirección de máxima pendiente de la función $$f(\mathbf{x}) = \sum_{i=1}^2x^2_i $$ utilizando la derivada parcial direccional cuando. (40/100)
-
-	1. $\mathbf{x} = [1,1]^T$ (5/100)
-	2. $\mathbf{x} = [0,0]^T$ (5/100)
-
-
-Entregar con portada que incluya.
-
-Maestría en Ciencias en Información Geoespacial.
-Materia: Aprendizaje Profundo
-Cuatrimestre: 
-Nombre:
-Número de tarea:
-Nombre del profesor:
-Fecha de entrega: 1 de junio 2022 
-
-La entrega debe incluir la desripción de la tarea indicando claramente los puntos tratados.
-
-Se puede entregar un escaneo o foto de su ejercicio en papel.
 
 
 
