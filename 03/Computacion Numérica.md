@@ -213,7 +213,7 @@ $$= \mathbf{u}^T  \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x}})  $$
 
 Una vez que resolvimos la derivada, el siguiente paso es encontrar la dirección (dado por la dirección del vector unitario) que haga la función $f$ decremente lo más rápido. En otras palabras que nos minimice la expresión del gradiente.  
 
-$$\underset{\mathbf{u},\mathbf{u}^T \mathbf{u} = 1}{\text{min }} = \mathbf{u}^T \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x}})  $$
+$$\underset{\mathbf{u},\mathbf{u}^T \mathbf{u}  1}{\text{min }} = \mathbf{u}^T \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x}})  $$
 
 Esto es esquivalente a encontrar el ángulo que debe existir entre $\mathbf{u}$ y $ \nabla_{\mathbf{x} } f (\mathbf{x})$ que minimice la expresión anterior.
 
@@ -232,7 +232,7 @@ Como $\mathbf{u}^T \mathbf{u} =1$, y el gradiente no influye en el proceso de mi
 
 $$\underset{\mathbf{u},\mathbf{u}^T \mathbf{u} = 1	 }{\text{min }}   \frac{\mathbf{u} \cdot \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x})}}{||\mathbf{u}||_2 ||\nabla_{\mathbf{x}} f (\mathbf{x})||_2 }$$
 
-El vector $\mathbf{u}$ que minimiza es aquel que genera un ángulo de 180 grados ($2 \pi$) con respecto al vector de las derivadas parciales.
+El vector $\mathbf{u}$ que minimiza es aquel que genera un ángulo de 180 grados ($ \pi$) con respecto al vector de las derivadas parciales.
 
 
 
@@ -329,9 +329,9 @@ $$f(\mathbf{x}_0 - \epsilon \mathbf{g}) \approx f(\mathbf{x}_0)-\epsilon \mathbf
 
 Vemos 3 componentes 
 
-El valor original $f(x_0)$. 
-La mejora esperada dada la pendiente de la función
-La corrección tomando en cuenta la curvatura de la función.
+1. El valor original $f(x_0)$. 
+2. La mejora esperada dada la pendiente de la función
+3. La corrección tomando en cuenta la curvatura de la función.
 
 La serie de Taylor nos sirve como herramienta para estimar el desempeño de $\epsilon$
 
@@ -342,18 +342,6 @@ Cuando $\mathbf{g}^T \mathbf{H} \mathbf{g}$ es positiva podemos resolver el tama
 $$\epsilon^* = \frac{\mathbf{g}^T\mathbf{g}}{\mathbf{g}^TH\mathbf{g}}$$
 
 
-** **
-
-
-**Eigenvalores $\lambda_i$**
-
-$$(A-\lambda I)=0$$
-
-
-**Eigenvectores**
-
-$$(A-\lambda I)x=0$$
-
 
 
 
@@ -407,3 +395,4 @@ $$(A-\lambda I)x=0$$
 
 	
 
+	
