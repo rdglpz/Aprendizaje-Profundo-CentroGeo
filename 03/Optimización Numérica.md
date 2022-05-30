@@ -101,7 +101,7 @@ Los problemas se pueden clasificar en **Convexos** y **No Convexos**). Estos se 
 
 Formalmente, para dos puntos  cualquiera $x_0,x_1$ en el conjunto $S$ , tenemos el conjunto de puntos definido por:
 
-$$\alpha x_0 + (1-\alpha)x_1 \in S \text{ para }  \alpha = [0,1]$$.
+$$\alpha x_0 + (1-\alpha)x_1 \in S \text{ para }  \alpha \in [0,1]$$.
 
 Donde podemos decir si la función $f$ es convexa si cumple con la siguiente desigualdad
 
@@ -114,13 +114,13 @@ No es así en los problemas no convexos como aquellos que se presentan en aprend
 El objetivo de los problemas de optimización es *mover* de la mejor manera $\mathbf{x}$ para encontrar el mínimo dado un problema de optimización.
 
 La expresión general de actualización de $x$ para una función unidimensional
-$$x_{t+1} = x_t + \epsilon  \cdot f'(x)) $$
+$$x_{t+1} = x_t + \epsilon  \cdot f'(x) $$
 
-La cual podemos observar 3 componentes:
+La cual podemos observar 3 componentes (correcciones):
 
 * El vector $x_t$, (que puede verse como un vector de estado en el tiempo $t$).
-* $f'(x))$: El valor de la derivada ue indica cuanto mover a $x$.
-* $\epsilon$: Es la tasa de aprendizaje. Es un número de preferencia menor que 1 $f'(x))$.
+* $f'(x)$: El valor de la derivada. Indica **la dirección** a mover para $x$, y sugiere una magnitud de desplazamiento.
+* $\epsilon$: Es la tasa de aprendizaje. Indica cuanto "le haremos caso" a la magnitud de la derivada.  Es un número de preferencia pequeño menor que 1 $f'(x))$.
 
 
 Idealmente queremos que siempre por cada iteración mejorar la solución previa. $f(x_{t+1})< f(x)$.  Pero no es posible garantizarlo.
@@ -129,33 +129,29 @@ Un tipo de optimización muy utilizada en aprendizaje profundo es optimización 
 
 Esto es porque la funciones objetivo por lo regular son continuas y derivables y se explota esta característica para saber hacia donde mover los parámetros.
 
-$\mathbf{x}$.
-
 
 **Gradiente**
 
-Porqué es buena idea considerar el gradiente en problemas de optimización?
+¿Porqué es buena idea considerar el gradiente en problemas de optimización?
 
 
 1. Nos da información sobre la distanca que nos separa del óptimo.
 2. Nos da información hacia donde debemos mover la solución actual $x_t$.
 
-El algoritmo de gradiente descendente nos dice que $x_t$ debe moverse en dirección contraria al gradiente o sea, 
+El algoritmo de gradiente descendente nos dice que $x_t$ debe moverse en dirección contraria al gradiente. Esto es:, 
 
 
 $$x_{t+1} = x_t - f'(x)$$
 
 **Puntos críticos o estacionarios**
 
-Son aquellos **mínimos, máximos, puntos de silla** donde la derivada $f'(0) = 0$.
-Por lo que :
+Son aquellos **mínimos, máximos, puntos de silla** donde la derivada $f'(x) = 0$. (Goodfellow, pág 81, Fig 4.2,)
 
-$$x_{t+1} -   (x_t + \epsilon \cdot f(x_t)) =0 $$
 
 En aprendizaje automático buscaremos una solución, la cual nos permita al menos obtener un muy buen óptimo local.
 
 
-Optimizaremos funciones de multiples entradas, una sola salida 
+Para entender como funciona el algoritmo basado en gradiente, optimizaremos funciones de múltiples entradas, una sola salida.
 
 $$f: \mathbf{R}^n \rightarrow \mathbf{R} $$.
 
@@ -168,27 +164,29 @@ Cuando $\mathbf{x} \in \mathbf{R}^{n}$ necesitamos calcular las derivadas parcia
 $$[\frac{\partial f(\mathbf{x})}{\partial x_0}, \frac{\partial f(\mathbf{x})}{\partial x_1},\dots \frac{\partial f(\mathbf{x})}{\partial x_{n-1}}]^T =\nabla_{\mathbf{x}} f(\mathbf{x}) $$
 
 
-**Algoritmo de descenso mas pronunciado   (Gradiente de descenso)**
+### Algoritmo de Descenso por Gradiente
 
 Derivación del algoritmo.
 
 
-Para una sola dimensión es sencillo intuir que la dirección contraria a la derivada es donde se encuentra el descenso, pero para generalizar la idea en una función de mas de una dimensión la dirección que nos da el descenso mas pronunciado se prueba de la siguiente forma.
+Para una sola dimensión es sencillo intuir que la dirección contraria a la derivada es donde se encuentra el descenso. Para generalizar la idea en una función de mas de una dimensión, la dirección que nos da el descenso mas pronunciado se prueba de la siguiente forma.
 
 Dada una función evaluada en $\mathbf{x}$, como $f(\mathbf{x})  \in R^n $, ¿A qué dirección se encuentra la pendiente mas pronunciada? 
 
 Para contestar esta pregunta, una manera de responder es formulando nuestro problema de una manera adecuada.
 
-$$\underset{\mathbf{u^Tu}=1}{\text{min }} \underset{\alpha \rightarrow 0}{\text{lim }} f(\mathbf{x} + \alpha \mathbf{u})$$
+$$\underset{\mathbf{u^Tu}=1}{\text{min }} \frac{\partial }{\partial \alpha} f(\mathbf{x} + \alpha \mathbf{u})$$
 
-donde 
-* $\mathbf{u}$ es el vector unitario que nos indica la dirección a la cual se movería $\mathbf{x}$ 
+donde:
+ 
 * $\alpha$ es un valor muy pequeño que tiende a 0.
+* $\mathbf{u}$ es el vector unitario que nos indica la dirección a la cual se movería $\mathbf{x}$ 
 
-Primero Queremos resolver la expresión que nos da la pendiente para un desplazamiento muy pequeño $\alpha \rightarrow 0$ de $\mathbf{x}$ a una dirección $\mathbf{u}$. 
+
+Primero Queremos resolver la expresión que nos da la pendiente para un desplazamiento muy pequeño $\alpha \rightarrow 0$ de $\mathbf{x}$ a una dirección $\mathbf{u}$. A esto se le llama la **Derivada Direccional**.
 
 
-$$\underset{\alpha \rightarrow 0}{\text{lim }} f(\mathbf{x} + \alpha \mathbf{u})$$
+$$ \frac{\partial }{\partial \alpha} f(\mathbf{x} + \alpha \mathbf{u})$$
 
 Con la regla de la cadena hacemos cambio de variable:
 
@@ -205,15 +203,15 @@ $$\frac{\partial y}{\partial \alpha} = \frac{\partial y}{\partial v}  \cdot \fra
 
 $$= \nabla_{\mathbf{v}} f(\mathbf{v}) \cdot \mathbf{u}$$
 
-Equivalentemente sustituimos y reacomodamos términos en forma de multiplicación matricial.
+Equivalentemente sustituimos el producto punto y reacomodamos términos en forma de multiplicación matricial.
 
 $$= \mathbf{u}^T  \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x}+\alpha \mathbf{u}})  $$
 
-Evaluamos para $\alpha = 0$
+Evaluamos la derivada para $\alpha = 0$
 
 $$= \mathbf{u}^T  \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x}})  $$
 
-Una vez que resolvimos el límite, el siguiente paso es encontrar la dirección (dado por la dirección del vector unitario) que haga la función $f$ decremente lo más rápido. En otras palabras que nos minimice la expresión del gradiente.  
+Una vez que resolvimos la derivada, el siguiente paso es encontrar la dirección (dado por la dirección del vector unitario) que haga la función $f$ decremente lo más rápido. En otras palabras que nos minimice la expresión del gradiente.  
 
 $$\underset{\mathbf{u},\mathbf{u}^T \mathbf{u} = 1}{\text{min }} = \mathbf{u}^T \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x}})  $$
 
@@ -224,7 +222,7 @@ Recordemos que el producto punto entre dos vectores, es igual a multiplicar su m
 $$\underset{\mathbf{u},\mathbf{u}^T \mathbf{u} = 1}{\text{min }}   || \mathbf{u}||_2 || \nabla_{\mathbf{x}} f(\mathbf{\mathbf{x})}||_2 \text{ cos } \theta $$
 
 
-Recordemos que 
+Recordemos que: 
 $$||\mathbf{a}||_2 ||\mathbf{b}||_2 \text{ cos } \theta=  \frac{\mathbf{a} \cdot \mathbf{b}}{ ||\mathbf{a}||_2 ||\mathbf{b}||_2}$$
 
 
@@ -236,20 +234,139 @@ $$\underset{\mathbf{u},\mathbf{u}^T \mathbf{u} = 1	 }{\text{min }}   \frac{\math
 
 El vector $\mathbf{u}$ que minimiza es aquel que genera un ángulo de 180 grados ($2 \pi$) con respecto al vector de las derivadas parciales.
 
-A esto se le llama la **Derivada Direccional**.
 
 
-Por lo tanto la dirección donde se encuentra la pendiente en descenso mas pronunciada es justo en la dirección contraria del a la pendiente dada a la derivada  parciales o **Gradiente**. 
+
+Por lo tanto la dirección donde se encuentra la pendiente en descenso mas pronunciada **es justo en la dirección contraria del a la pendiente dada a la derivada  parcial**. A este método se le llama **Descenso de Gradiente o Descenso mas pronunciado**.
 
 
 $$\mathbf{x}_{t+1} = \mathbf{x}_{t} - \epsilon \nabla_\mathbf{x} f (\mathbf{x}) $$
 
-Una estrategia para escoger $\epsilon$ es 
+Donde $\epsilon$  es la tasa de aprendizaje, un escalar positivo que define el tamaño de paso. El algoritmo converge cuando $\nabla_\mathbf{x} f (\mathbf{x})$ es cero o muy cercano a cero. Algunas ocasiones podemos evitar las iteraciones y encontrar directamente la solución $\mathbf{x}$ que $\nabla_\mathbf{x} f (\mathbf{x})=0$.
+
+
+Alguna estrategia para escoger $\epsilon$ pueden ser: 
 
 1. Escoger un valor muy pequeño.
-2. Hacer algún tipo de búsueda lineal.
+2. Hacer algún tipo de búsqueda lineal hasta encontrar un valor de $\epsilon$ que minimize la función objetivo.
+
 
 $$\underset{\epsilon, \epsilon \leq 1}{\text{ min }} f(\mathbf{x}_t - \epsilon \nabla_\mathbf{x} f (\mathbf{x}) )$$
+
+### **Derivada, 2da Derivada y su generalización en altas dimensiones**
+
+**Problemas con el algoritmo de gradiente descendente**
+
+Ver Fig. 4.4 (Goodfellow, pag 84)
+1. El gradiente solo predice de una manera precisa funciones que se comportan linealmente (en su totalidad o en algún intervalo, donde no tienen curvatura). (e.g. y = mx +b).
+2. Con funciones no lineales pueden suceder dos cosas:  
+	1 . Si la curvatura es negativa, el valor de $f(\mathbf{x})$ se decrementará mas rápido que el estimado por el gradiente  $f(\mathbf{x_t}-\epsilon  \nabla_{\mathbf{x}}f(\mathbf{x}))$.
+	2 . Si la curvatura es positiva  $f(\mathbf{x})$ el valor decrementara mas lento que lo estimado por gradiente.
+	
+
+**Solución:**
+
+Utilizar el concepto de segunda derivada para descubrir si existe curvatura.
+
+Ejercicios, verificando curvaturas con 2da derivada de funciones univariadas:
+
+1. Dado $f(x) = mx+b$, ¿Cuál es su derivada para dos valores diferentes de $x$? 
+2. Con respecto a la función anterior, cual es su segunda derivada? 
+3. Dado $f(x) = (mx+b)^2$, encontrar de manera analítica:
+	1. La derivada $f'$ y la solución $x$ que resuelve $ f'(x)=0$ 
+	2. Calcular la 2da derivada $f''(mx+b)^2$ y evaluar en $f''(x)$ donde $f'(x)=0$.
+
+3. Lo mismo que el anterior pero con probando para $f(x) = -(mx+b)^2$.
+
+	
+
+**Jacobiano**
+
+Para calcular la derivada parcial de una función que recibe vectores de tamaño $m$ y devuelve  vectores $n>1$. $f: \mathbb{R}^m \rightarrow \mathbb{R}^n$, En cálculo de vectores, es necesario calcular las derivadas parciales: $$J_{i,j}=\frac{\partial}{\partial x_j} f (\mathbf{x})_i$$ 
+
+
+
+![](https://wikimedia.org/api/rest_v1/media/math/render/svg/cd4cfdd4fd3a250f3bb15bc6b06372ea3a2da65f)
+
+**Hessiano**
+
+Es la versión vectorial de la segunda derivada.
+
+Se expresa como: $$H_f(\mathbf{x})_{i,j} = \frac{\partial^2}{\partial x_i \partial x_j}f(\mathbf{x})$$
+
+Y en su forma matricial es:
+
+![](https://wikimedia.org/api/rest_v1/media/math/render/svg/16edfd41354f9adbe656c26498348a8bee5d6c7b)
+
+
+Como el Hessiano es una matriz  simétrica, podemos descomponerla en un conjunto de eigenvalores reales y bases ortogonales de eigenvectores.
+
+La segunda derivada nos da información sobre el desempeño del algoritmo de Descenso de Gradiente observando al curvatura aproximada y sobre eso ajustar un valor a $\epsilon$.
+
+Para descubrir ese valor se recurren a heurísticas.
+
+
+Una manera es haciendo una aproximación  de $f(\mathbf{x})$ alrededor de un punto $x_0$. Para esto recurrimos a la aplicación de series de Taylor.
+
+$$f(x)=\sum^\infty_{n=0} \frac{f^{(n)}(a)}{n!}(x-a)^n$$
+
+
+
+Donde truncamos hasta la 2da derivada.
+
+$$f(\mathbf{x}) \approx f(\mathbf{x})+(\mathbf{x}-\mathbf{x}_0)^T \mathbf{g} + 1/2 (\mathbf{x}-\mathbf{x}_0)^T \mathbf{H} (\mathbf{x}-\mathbf{x}_0)$$
+donde:
+ 
+$\mathbf{g}$ : Es el gradiente evaluado en $\mathbf{x}_0$.   
+$\mathbf{H}$: El Hessiano evaluado en $\mathbf{x}_0$. 
+
+******
+**Ejercicio, Generar la serie de Taylor para $y = x^2$**
+******
+Si usamos utilizamos la tasa de aprendizaje $\epsilon$, el punto $\mathbf{x}$ esta dado por $\mathbf{x_0}-\epsilon \mathbf{g} $. Al sustituir este termino tenemos:
+
+$$f(\mathbf{x}_0 - \epsilon \mathbf{g}) \approx f(\mathbf{x}_0)-\epsilon \mathbf{g}^T \mathbf{g} +1/2 \epsilon^2 \mathbf{g}^T H \mathbf{g}$$
+
+Vemos 3 componentes 
+
+El valor original $f(x_0)$. 
+La mejora esperada dada la pendiente de la función
+La corrección tomando en cuenta la curvatura de la función.
+
+La serie de Taylor nos sirve como herramienta para estimar el desempeño de $\epsilon$
+
+si $\epsilon$ es muy grande entonces la aproximación será menor. 
+
+Cuando $\mathbf{g}^T \mathbf{H} \mathbf{g}$ es positiva podemos resolver el tamaño de paso que mejor decrementa la aproximación de $f$ con series de Taylor. 
+
+$$\epsilon^* = \frac{\mathbf{g}^T\mathbf{g}}{\mathbf{g}^TH\mathbf{g}}$$
+
+
+** **
+
+
+**Eigenvalores $\lambda_i$**
+
+$$(A-\lambda I)=0$$
+
+
+**Eigenvectores**
+
+$$(A-\lambda I)x=0$$
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
 
 
 
