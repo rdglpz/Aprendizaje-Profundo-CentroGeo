@@ -305,6 +305,7 @@ La segunda derivada nos da información sobre el desempeño del algoritmo de Des
 
 Para descubrir ese valor se recurren a heurísticas.
 
+**Un algoritmo usando series de Taylor para buscar el tamaño de paso valor $\epsilon$**
 
 Una manera es haciendo una aproximación  de $f(\mathbf{x})$ alrededor de un punto $x_0$. Para esto recurrimos a la aplicación de series de Taylor.
 
@@ -314,7 +315,8 @@ $$f(x)=\sum^\infty_{n=0} \frac{f^{(n)}(a)}{n!}(x-a)^n$$
 
 Donde truncamos hasta la 2da derivada.
 
-$$f(\mathbf{x}) \approx f(\mathbf{x})+(\mathbf{x}-\mathbf{x}_0)^T \mathbf{g} + 1/2 (\mathbf{x}-\mathbf{x}_0)^T \mathbf{H} (\mathbf{x}-\mathbf{x}_0)$$
+$$f(\mathbf{x}) \approx f(\mathbf{x_0})+(\mathbf{x}-\mathbf{x}_0)^T \mathbf{g} + 1/2 (\mathbf{x}-\mathbf{x}_0)^T \mathbf{H} (\mathbf{x}-\mathbf{x}_0)$$
+
 donde:
  
 $\mathbf{g}$ : Es el gradiente evaluado en $\mathbf{x}_0$.   
@@ -323,11 +325,15 @@ $\mathbf{H}$: El Hessiano evaluado en $\mathbf{x}_0$.
 ******
 **Ejercicio, Generar la serie de Taylor para $y = x^2$**
 ******
-Si usamos utilizamos la tasa de aprendizaje $\epsilon$, el punto $\mathbf{x}$ esta dado por $\mathbf{x_0}-\epsilon \mathbf{g} $. Al sustituir este termino tenemos:
+
+Podemos utilizar la serie de Taylor como herramienta para calcular un buen valor de $\epsilon$. Para esto 
+sustituimos $\mathbf{x}$  por $\mathbf{x_0}-\epsilon \mathbf{g} $. Tenemos:
+
+$$f(\mathbf{x}_0 - \epsilon \mathbf{g}) \approx f(\mathbf{x}_0)+((\mathbf{x_0}-\epsilon \mathbf{g} )-\mathbf{x}_0)^T \mathbf{g} + 1/2 ((\mathbf{x_0}-\epsilon \mathbf{g} )-\mathbf{x}_0)^T \mathbf{H} ((\mathbf{x_0}-\epsilon \mathbf{g} )-\mathbf{x}_0)$$
 
 $$f(\mathbf{x}_0 - \epsilon \mathbf{g}) \approx f(\mathbf{x}_0)-\epsilon \mathbf{g}^T \mathbf{g} +1/2 \epsilon^2 \mathbf{g}^T H \mathbf{g}$$
 
-Vemos 3 componentes 
+Vemos 3 componentes.
 
 1. El valor original $f(x_0)$. 
 2. La mejora esperada dada la pendiente de la función
