@@ -305,15 +305,23 @@ La segunda derivada nos da información sobre el desempeño del algoritmo de Des
 
 Para descubrir ese valor se recurren a heurísticas.
 
+**Lo que veremos en la clase de hoy**
+1. Serie de Taylor y búsqueda de $\epsilon$
+2. Como detectar si $f'(x)=0$ es un máximo, mínimo o punto de slla
+3. Método de Newton para optimización.
+4. Función lipschitziana.
+
 **Un algoritmo usando series de Taylor para buscar el tamaño de paso valor $\epsilon$**
 
-Una manera es haciendo una aproximación  de $f(\mathbf{x})$ alrededor de un punto $x_0$. Para esto recurrimos a la aplicación de series de Taylor.
+
+
+La serie de Taylor esta definido como una suma de términos de la forma:
 
 $$f(x)=\sum^\infty_{n=0} \frac{f^{(n)}(a)}{n!}(x-a)^n$$
 
+Es una herramienta poderos para aproximar una función que no conocemos $f(\mathbf{x})$ alrededor de un punto $x_0$. 
 
 
-Donde truncamos hasta la 2da derivada.
 
 $$f(\mathbf{x}) \approx f(\mathbf{x_0})+(\mathbf{x}-\mathbf{x}_0)^T \mathbf{g} + 1/2 (\mathbf{x}-\mathbf{x}_0)^T \mathbf{H} (\mathbf{x}-\mathbf{x}_0)$$
 
@@ -326,10 +334,12 @@ $\mathbf{H}$: El Hessiano evaluado en $\mathbf{x}_0$.
 **Ejercicio, Generar la serie de Taylor para $y = x^2$**
 ******
 
-Podemos utilizar la serie de Taylor como herramienta para calcular un buen valor de $\epsilon$. Para esto 
+Podemos utilizar la serie de Taylor para calcular un buen valor para la tasa de aprendizaje $\epsilon$. Para esto 
 sustituimos $\mathbf{x}$  por $\mathbf{x_0}-\epsilon \mathbf{g} $. Tenemos:
 
 $$f(\mathbf{x}_0 - \epsilon \mathbf{g}) \approx f(\mathbf{x}_0)+((\mathbf{x_0}-\epsilon \mathbf{g} )-\mathbf{x}_0)^T \mathbf{g} + 1/2 ((\mathbf{x_0}-\epsilon \mathbf{g} )-\mathbf{x}_0)^T \mathbf{H} ((\mathbf{x_0}-\epsilon \mathbf{g} )-\mathbf{x}_0)$$
+
+Simplificando:
 
 $$f(\mathbf{x}_0 - \epsilon \mathbf{g}) \approx f(\mathbf{x}_0)-\epsilon \mathbf{g}^T \mathbf{g} +1/2 \epsilon^2 \mathbf{g}^T H \mathbf{g}$$
 
@@ -345,7 +355,7 @@ $$\underset{\epsilon}{\text{ arg min }} j(\epsilon)$$
 
 donde  $j(\epsilon) = f(\mathbf{x}_0)-\epsilon \mathbf{g}^T \mathbf{g} +1/2 \epsilon^2 \mathbf{g}^T H \mathbf{g}$
 
-Resolver numéricamente es muy costo. e.g. con Descenso de gradiente o encontrar la solución exacta.
+Resolver numéricamente es muy costo. e.g. con Descenso de gradiente??!. Podemos  encontrar la solución exacta a esta expresión.
 
 1. Resolver la derivada de la expresión 
 2. Encontrar aquella $\epsilon$ que haga 0 la expresión
@@ -358,34 +368,33 @@ $$\epsilon^* = \frac{\mathbf{g}^T\mathbf{g}}{\mathbf{g}^TH\mathbf{g}}$$
 **Significado de la Eigendescomposición de la matriz Hessiana**
 
 
-| Segunda derivada en puntos críticos $f'(x)=0$ | Ejemplo     |    Hessiano en puntos críticos $ \nabla_x  f(\mathbf{x}) = 0$    |                      |                          Diagnóstico local de la función                          |   |
+| Segunda derivada en puntos críticos $f'(x)=0$ | Ejemplo     |    Hessiano en puntos críticos $ \nabla_x  f(\mathbf{x}) = 0$    |          Ejemplo            |                          Diagnóstico local de la función                          |  |
 |:---------------------------------------------:|-------------|:----------------------------------------------------------------:|----------------------|:---------------------------------------------------------------------------------:|---|
 |                   $f''(x)>0$                  | $f(x)=x^2$  | Todos eigenvalores $\lambda_i$  positivos                        | $f(x,y)= x^2+y^2$    | $x$ esta en un mínimo                                                             |   |
 |                   $f''(x)<0$                  | $f(x)=-x^2$ | Todos eigenvalores $\lambda_i$  negativos                        | $f(x,y)= -(x^2+y^2)$ | $x$ está en un máximo                                                             |   |
-|                   $f''(x)=0$                  | $f(x)=mx+b$ | Al menos un eigenvalor es cero y los demás tienen el mismo signo |                      | $x$ está en una superficie indeterminada. Puede ser punto de silla o region plana |   |
+|                   $f''(x)=0$                  | $f(x)=mx+b,f(x)=x^3$ | Al menos un eigenvalor es cero y los demás tienen el mismo signo |             ??  | ??
+        | |   |
 |                                               |             | Unos eigenvalores son positivos y otros negativos                | $f(x,y)= (x^2-y^2)$  | ?                                                                                 |   |
 
 **Método de Newton**
 
-Descenso de gradiente tiene un problema, cuando el numero de condicionamiento de la matriz Hessiana es grande, es dificil encontrar un buen tamaño de paso $\epsilon$ para hacer mejoras significativas.
-
-Por lo que basado en las series de Taylor.
-
-De nuevo tenemos las serie de Taylor $T(x) \approx f(x)$
+Descenso de gradiente tiene un problema, cuando el número de condicionamiento de la matriz Hessiana es grande, es dificil encontrar un buen tamaño de tasa de aprendizaje $\epsilon$ para hacer mejoras significativas. Para esto podemos resolver la serie de Taylor en el punto crítico considerando hasta el 3er termino. De nuevo tenemos las serie de Taylor $T(x) \approx f(x)$
 
 $$T(\mathbf{x}) = f(\mathbf{x_0})+(\mathbf{x}-\mathbf{x}_0)^T \mathbf{g} + 1/2 (\mathbf{x}-\mathbf{x}_0)^T \mathbf{H} (\mathbf{x}-\mathbf{x}_0)$$
 
 Resolviendo para el punto crítico $T'(\mathbf{x}^*)=0$ (T de Taylor). y después despejando $\mathbf{x}^*$
 
 
-Si $f$ es una función cuadrática positiva definida (matriz simétrica con valores reales), con el método de Newton brincamos a la solución directamente, si $f$ es no es una función cuadrática pero puede ser aproximada como una función cuadrática positiva definida  varias iteraciones serían requeridas para aproximarse al óptimo local.
+Si $f$ es una función cuadrática positiva definida (matriz simétrica con valores reales), con el método de Newton brincamos a la solución directamente, si $f$ es no es una función cuadrática pero puede ser aproximada como una función cuadrática positiva definida, entonces  varias iteraciones serían requeridas para aproximarse al óptimo local.
 
-Mas eficiente que descenso de gradiente cuando estamos cerca de un minimo local. 
-**No muy bueno cuando estamos en un punto de silla, porque es atraido a estos** Descenso por gradiente no es atraido por estos puntos, pero puede apuntar por accidente y quedarse atascado ahí.
+Esto es mas eficiente que descenso de gradiente cuando estamos cerca de un mínimo local para la familia de funciones mencionada. 
+
+**Sin embargo, no es muy bueno cuando estamos en un punto de silla, porque es atraido a estos**. En este caso descenso por gradiente no es atraido por estos puntos, pero puede apuntar por accidente y quedarse atascado ahí.
 
 
-Método de newton se clasifica como un algoritmo de optimizacion de segundo orden. Por la 2da derivada que se le llama también de 2do orden
-Método de Descenso de gradiente como de primer orden.
+Método de newton se clasifica como un algoritmo de optimizacion de segundo orden. Por la 2da derivada que se le llama también de 2do orden o orden 2.
+
+Por lo tanto siguiendo esta terminología, el método de Descenso de gradiente es un algoritmo de optimización de primer orden.
 
 
 **El continuo de  Lipschitz**
@@ -398,8 +407,15 @@ Una función continua de Lipschitz es aquella la cual su tasa de cambio es acota
 
 $$\forall \mathbf{x},\forall \mathbf{y}, |f(\mathbf{x})-f(\mathbf{x})| \leq L||\mathbf{x}-\mathbf{y}||_2 $$
 
+
+Esta propiedad nos permite medir y verificar la supocisión de que pequeñas variaciones en las entradas, producen también pequeñas variaciones en las salidas. Podemos esperar una estabílidad mínima en los algorimos de optimización.
+
+
 **Optimización Convexa**
 
+Es un tipo de optimización muy especializada que tiene muchas garantías de convergencia, pero que es restringido a una una familia específica de problemas (e.g. se tienen matrices Hesianas positivas por todos lados, no tienen puntos de silla, el ópitmo local es óptimo global ).
+
+No es el caso de problemas en Aprendizaje Profundo.
 
 
 
