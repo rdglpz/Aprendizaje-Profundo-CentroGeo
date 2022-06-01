@@ -339,13 +339,86 @@ Vemos 3 componentes.
 2. La mejora esperada dada la pendiente de la función
 3. La corrección tomando en cuenta la curvatura de la función.
 
-La serie de Taylor nos sirve como herramienta para estimar el desempeño de $\epsilon$
-
-si $\epsilon$ es muy grande entonces la aproximación será menor. 
-
 Cuando $\mathbf{g}^T \mathbf{H} \mathbf{g}$ es positiva podemos resolver el tamaño de paso que mejor decrementa la aproximación de $f$ con series de Taylor. 
 
+$$\underset{\epsilon}{\text{ arg min }} j(\epsilon)$$
+
+donde  $j(\epsilon) = f(\mathbf{x}_0)-\epsilon \mathbf{g}^T \mathbf{g} +1/2 \epsilon^2 \mathbf{g}^T H \mathbf{g}$
+
+Resolver numéricamente es muy costo. e.g. con Descenso de gradiente o encontrar la solución exacta.
+
+1. Resolver la derivada de la expresión 
+2. Encontrar aquella $\epsilon$ que haga 0 la expresión
+
+Solución
 $$\epsilon^* = \frac{\mathbf{g}^T\mathbf{g}}{\mathbf{g}^TH\mathbf{g}}$$
+
+
+
+**Significado de la Eigendescomposición de la matriz Hessiana**
+
+
+| Segunda derivada en puntos críticos $f'(x)=0$ | Ejemplo     |    Hessiano en puntos críticos $ \nabla_x  f(\mathbf{x}) = 0$    |                      |                          Diagnóstico local de la función                          |   |
+|:---------------------------------------------:|-------------|:----------------------------------------------------------------:|----------------------|:---------------------------------------------------------------------------------:|---|
+|                   $f''(x)>0$                  | $f(x)=x^2$  | Todos eigenvalores $\lambda_i$  positivos                        | $f(x,y)= x^2+y^2$    | $x$ esta en un mínimo                                                             |   |
+|                   $f''(x)<0$                  | $f(x)=-x^2$ | Todos eigenvalores $\lambda_i$  negativos                        | $f(x,y)= -(x^2+y^2)$ | $x$ está en un máximo                                                             |   |
+|                   $f''(x)=0$                  | $f(x)=mx+b$ | Al menos un eigenvalor es cero y los demás tienen el mismo signo |                      | $x$ está en una superficie indeterminada. Puede ser punto de silla o region plana |   |
+|                                               |             | Unos eigenvalores son positivos y otros negativos                | $f(x,y)= (x^2-y^2)$  | ?                                                                                 |   |
+
+**Método de Newton**
+
+Descenso de gradiente tiene un problema, cuando el numero de condicionamiento de la matriz Hessiana es grande, es dificil encontrar un buen tamaño de paso $\epsilon$ para hacer mejoras significativas.
+
+Por lo que basado en las series de Taylor.
+
+De nuevo tenemos las serie de Taylor $T(x) \approx f(x)$
+
+$$T(\mathbf{x}) = f(\mathbf{x_0})+(\mathbf{x}-\mathbf{x}_0)^T \mathbf{g} + 1/2 (\mathbf{x}-\mathbf{x}_0)^T \mathbf{H} (\mathbf{x}-\mathbf{x}_0)$$
+
+Resolviendo para el punto crítico $T'(\mathbf{x}^*)=0$ (T de Taylor). y después despejando $\mathbf{x}^*$
+
+
+Si $f$ es una función cuadrática positiva definida (matriz simétrica con valores reales), con el método de Newton brincamos a la solución directamente, si $f$ es no es una función cuadrática pero puede ser aproximada como una función cuadrática positiva definida  varias iteraciones serían requeridas para aproximarse al óptimo local.
+
+Mas eficiente que descenso de gradiente cuando estamos cerca de un minimo local. 
+**No muy bueno cuando estamos en un punto de silla, porque es atraido a estos** Descenso por gradiente no es atraido por estos puntos, pero puede apuntar por accidente y quedarse atascado ahí.
+
+
+Método de newton se clasifica como un algoritmo de optimizacion de segundo orden. Por la 2da derivada que se le llama también de 2do orden
+Método de Descenso de gradiente como de primer orden.
+
+
+**El continuo de  Lipschitz**
+
+Los algoritmos para aprendizaje automatico y profundo, se aplican para una familia muy amplía de problemas pero con muy poca garantía de convergencia.
+
+Sin embargo existen algunas garantías restirngiendo problemas o funciones que son **Lipschitz continuas** o tienen derivadas continuas de Lpipshit
+
+Una función continua de Lipschitz es aquella la cual su tasa de cambio es acotada por la **constante de Lipschitz** $L$
+
+$$\forall \mathbf{x},\forall \mathbf{y}, |f(\mathbf{x})-f(\mathbf{x})| \leq L||\mathbf{x}-\mathbf{y}||_2 $$
+
+**Optimización Convexa**
+
+
+
+
+https://towardsdatascience.com/optimization-eye-pleasure-78-benchmark-test-functions-for-single-objective-optimization-92e7ed1d1f12
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
