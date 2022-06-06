@@ -60,7 +60,7 @@ Comenzamos definiendo los *ingredientes* necesarios para generar un sistema de a
 
 
 
-El modelo consiste en procesar vectores de entrada $\mathbf{x} \in R^m$ y producir un pronóstico o predicción de salida $y \in R$.
+El modelo consiste en procesar vectores de entrada $\mathbf{x} \in R^n$ y producir un pronóstico o predicción de salida $y \in R$.
 
 La salida depende de una función lineal aplicada a $\mathbf{x}$.
 
@@ -71,7 +71,7 @@ $$\hat{y} = \mathbf{w}^T\mathbf{x}$$
 donde $\mathbf{w}\in R^n$.
 
 
-Desempeño $P$ en el conjunto conjunto de prueba. Como ejemplo, describimos primero el enfoque estadístico, y después el enfoque frecuentista. Ambos enfoques nos llevan al mismo resultado pero con interpretaciones diferentes.
+Desempeño $P$ en el conjunto conjunto de prueba. 
 
 
 Tenemos una función de densidad que nos indica la probabilidad $p$ de que suceda $\mathbf{x}$ dado los parámetros $\theta$. Se escribe ($p(\mathbf{x}|\theta)$), esta función de densidad es la función de probabilidad normal $N(y|\mathbf{x},\sigma^2)$.
