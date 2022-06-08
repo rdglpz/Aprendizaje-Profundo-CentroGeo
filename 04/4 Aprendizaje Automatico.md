@@ -310,35 +310,6 @@ Problema de esta formulación: Es muy sensible a los  datos atípicos (outliers)
 
 ![1_1YmHqnQvz4OibS2i9lkODg](figures/1_1YmHqnQvz4OibS2i9lkODg.jpg)
 
-Solución: Usar una función que  mapea $ f:y_i \cdot(\mathbf{w}^Tx_i + b)\rightarrow \{0,1\}$ *
-
-<img src="figures/1_Xj1YlkHlIv4_z6HPskJUZA.gif" alt="1_Xj1YlkHlIv4_z6HPskJUZA" style="zoom:50%;" />
-
-$$sigm(z) = \frac{1}{1+exp(-z)}$$
-
-
-Esta función regresa valores entre 0.5 y 1 cuando $y_i(\mathbf{w}^T \mathbf{x}_i + b)>0$*
-
-Esta función regresa valores entre (0, 0.5) en caso contrario.
-
-Por lo tanto la nueva formulación se expresa como
-
-$$\hat{\mathbf{w}}, \hat{b} = argmax_{\mathbf{w},b} (\sum sigm (y_i \cdot (\mathbf{w}^T x_i+b)))$$
-
-Problema: Tiene poca estabilidad numérica debido a los parámetros (variables) $\mathbf{w}$ en el exponente en el denominador, sigue siendo una solución sesgada sensible a los datos atípicos. 
-
-Solución: Aplicar logaritmo.
-
-$$\hat{\mathbf{w}}, \hat{b} = argmax_{\mathbf{w},b} (\sum log (\frac{1}{1+exp(-y_i \cdot (\mathbf{w}^T x_i+b)})$$
-
-(paso intermedio, completar por ustedes mismos)
-
-$$\hat{\mathbf{w}}, \hat{b} = argmax_{\mathbf{w},b} (\sum -log (1 + exp(-y_i \cdot (\mathbf{w}^T x_i+b))$$
-
-Último paso, convertirlo en un problema de minimización.
-
-(Completar ustedes mismos)
-
 
 **Formulación de la regresión logística con la distribución de probabilidad de Bernoulli**
 
@@ -386,7 +357,7 @@ Como las variables a clasificar son binarias, la salida de la función logístic
 
 
 
-Entonces utilizando la función de probabilidad de Bernoulli podemos evaluar en una sola expresión **la probabilidad de que un dato $\mathbf{x}_i$ este correctamente bien clasificado en la clase $y_i$,** ( de otro modo, la probabilidad de que un dato pertenezca a una clase $y_i$ indistintamente de su etiqueta.)
+Entonces utilizando la función de probabilidad de Bernoulli podemos evaluar en una sola expresión **la probabilidad de que un dato $\mathbf{x}_i$ este correctamente bien clasificado en la clase $y_i$,** ( de otro modo, la probabilidad de éxito de un clasificador indistintamente de su etiqueta.)
 
 $P(Y=y_i|\mathbf{X}=\mathbf{x}_i) = sigm(\mathbf{w}^T\mathbf{x}_i +b)^y \cdot [1-sigm(\mathbf{w}^T\mathbf{x}_i +b)]^{(1-y)}$
 
