@@ -60,7 +60,7 @@ Comenzamos definiendo los *ingredientes* necesarios para generar un sistema de a
 
 
 
-El modelo consiste en procesar vectores de entrada $\mathbf{x} \in R^n$ y producir un pronóstico o predicción de salida $y \in R$.
+El modelo consiste en procesar vectores de entrada $\mathbf{x} \in R^m$ y producir un pronóstico o predicción de salida $y \in R$.
 
 La salida depende de una función lineal aplicada a $\mathbf{x}$.
 
@@ -121,7 +121,7 @@ donde $f(\mathbf{x,w}) = \mathbf{x}^T \mathbf{w}$
 queremos minimizar por lo que formulamos el problema de optimización como
 
 
-$$\underset{ \mathbf{w}} { \text{ min }}  \frac{1}{m}  || f(\mathbf{x,w})-\mathbf{y} ||^2_2$$
+$$\underset{ \mathbf{w}} { \text{ min }} \frac{1}{m}   \sum _{i=1}^m  || f(\mathbf{x,w})-\mathbf{y} ||^2_2$$
 
 $$\underset{ \mathbf{w}} { \text{ min }}  \frac{1}{m}  || \mathbf{X}^T\mathbf{w}-\mathbf{y} ||^2_2$$
 
@@ -157,7 +157,7 @@ Para clasificación binaria, si un hiperplano separa dos clases, entonces se dic
 
 Ejemplo:
 
-Tenemos un conjunto de datos  $D\in\{x_i,y_i\}_{i=1}^m$ donde $y_i\in \{0,1\}$ y $x_i \in R^{n}$ 
+Tenemos un conjunto de datos  $D\in\{x_i,y_i\}_{i=1}^N$ donde $y_i\in \{-1,1\}$ es la etiqueta de clasificación y $x_i \in R^{m}$ 
 
  Para este conjunto de datos necesitamos una función (lineal) que nos ayude a separar los datos en dos clases. 
 
@@ -296,9 +296,11 @@ $(x_1-4)/-2 = x_2$
 
 1.d Extra. Extender el ejercicio (1.a) a 3 dimensiones ( $m =3$), con  $P_0 = [0,0,0]$ y $\mathbf{w}=[2,3,4]$
 
-### Optimización de la regresión logística
+### Regresión logística
 
-Una primera formulación intuitiva de la función objetivo  es la siguiente:
+**Entendiendo el papel de la regresión logística para resolver tareas de clasificación**
+
+Una primera formulación de la función objetivo intuitiva partiendo de la regresión lineal es:
 
 $$\hat{\mathbf{w}} = \underset{\mathbf{w}}{\text{ arg max }} \sum_{i-1}^N (y_i \cdot (\mathbf{w}^T \mathbf{x}_i+b)) $$  
 
@@ -309,6 +311,17 @@ Esta función estará sumando valores positivos siempre y cuando se cumpla $sign
 Problema de esta formulación: Es muy sensible a los  datos atípicos (outliers).
 
 ![1_1YmHqnQvz4OibS2i9lkODg](figures/1_1YmHqnQvz4OibS2i9lkODg.jpg)
+
+
+<img src="figures/1_Xj1YlkHlIv4_z6HPskJUZA.gif" alt="1_Xj1YlkHlIv4_z6HPskJUZA" style="zoom:50%;" />
+
+$$sigm(z) = \frac{1}{1+exp(-z)}$$
+
+
+Esta función regresa valores entre 0.5 y 1 cuando $y_i(\mathbf{w}^T \mathbf{x}_i + b)>0$*
+
+Esta función regresa valores entre (0, 0.5) en caso contrario.
+
 
 
 **Formulación de la regresión logística con la distribución de probabilidad de Bernoulli**
@@ -357,7 +370,7 @@ Como las variables a clasificar son binarias, la salida de la función logístic
 
 
 
-Entonces utilizando la función de probabilidad de Bernoulli podemos evaluar en una sola expresión **la probabilidad de que un dato $\mathbf{x}_i$ este correctamente bien clasificado en la clase $y_i$,** ( de otro modo, la probabilidad de éxito de un clasificador indistintamente de su etiqueta.)
+Entonces utilizando la función de probabilidad de Bernoulli podemos evaluar en una sola expresión **la probabilidad de que un vector de entrada $\mathbf{x}_i$ este correctamente clasificado en la clase $y_i$,** (de otro modo, la probabilidad de que un dato pertenezca a una clase $y_i$ indistintamente de su etiqueta.)
 
 $P(Y=y_i|\mathbf{X}=\mathbf{x}_i) = sigm(\mathbf{w}^T\mathbf{x}_i +b)^y \cdot [1-sigm(\mathbf{w}^T\mathbf{x}_i +b)]^{(1-y)}$
 
@@ -377,7 +390,7 @@ $P(y_i = 0 | X = x_i) = p*1$
 
 
 
-La verosimilitud se puede expresar de manera general como:
+La verosimilitud se puede expresar como un **producto de probabilidades de eventos independientes** :
 
  $L(\theta)  =  \prod_{i=1}^m p(Y=y_i | X= \mathbf{x}_i,\theta) $ 
 
@@ -389,9 +402,11 @@ $L(\theta)  = \prod_{i=1}^m p_i$
 
 
 
-Esta función nos sirve para utilizarla en nuestro problema de optimización. Ya nos arroja información útil sobre el desempeño de los parámetros.  Podemos simplificarla por razones de estabilidad numérica removiendo componentes exponenciales que dificultan al tratamiento numérico, por lo tanto formulamos la log-verosimilitud.
+Esta función nos sirve para medir el desempeño. 
 
- $log (L(\theta)) = LL(\theta)$ 
+Podemos simplificarla por razones de estabilidad numérica removiendo componentes exponenciales que dificultan al tratamiento numérico durante la optimización, por lo tanto formulamos la log-verosimilitud.
+
+ $\text{ log } (L(\theta)) = LL(\theta)$ 
 
 
 
@@ -429,6 +444,80 @@ $\frac{\partial LL(\theta)}{\partial \theta_j} = \sum_{i=1}^n [y_i-sigm(\theta^T
 
 
 
+## Overfitting, underfitting, VC dimension.
+
+* Una meta de los algoritmos de aprendizaje automático es que no solo se ajusten a un conjunto de datos fijo, si no que sean capaces de generalizar el comportamiento con conjuntos de entradas no vistas.   
+* Hasta el momento hemos entrenado modelos optimizando el ajuste de parámetros sobre un conjunto de datos que le llamaremos "Conjuto de entrenamiento".
+* Para  hacer que nuestro proceso de optimización sea uno de aprendizaje automático, tenemos que considerar la medición del **error de prueba** con un **conjunto de datos de prueba**. Este conjunto se deja fuera del proceso de optimización y se utiliza con el modelo optimizado para medir su **error de generalización**
+
+Es posible mejorar el desempeño de generalización cuando:
+* Se asume que los datos provienen de un mismo proceso de generación de datos.
+* La seleccion de la muestra son independientes.
+* Los conjuntos de entrenamiento y prueba son identicamente distribuidos, de una distribución de probabilidad.
+
+Esto nos permite asumir que encontraremos una aproximación que describa el proceso de generación de datos con una distribución de probabilidad.
+
+Este generador se llamara **distribución de generación de datos** denotado por $p_{data}$.
+
+Esto nos permite estudiar la relación que existe entre el error de entrenamiento y de prueba.
+
+* En un algoritmo de aprendizaje automático queremos reducir el error en el conjunto de entrenamiento y despues probarlo en el conjunto de prueba esperando que el error de este último sea al menos igual que el conjunto de entrenamiento.
+
+
+Los dos aspectos que determinan el desempeño de un modelo de aprendizaje automático es:
+
+1. Hacer el error de entrenamiento pequeño
+2. Hacer que la separación del error entre el conjunto de entrenamiento y prueba sea el menor posible.
+
+
+Esos aspecto determinan el 
+
+1. Sub-ajuste. El modelo es incapaz de ajustarse apropiadamente a los datos. 
+2. sobre ajuste. La distancia entre error de entrenamiento y prueba es grande. 
+
+Se puede controlar el ajsute alterando o manupulando su capacidad.
+Capacidad: Es la habilidad del modelo para ajustarse a una gran cantidad de funciones. 
+
+
+Una manera de controlar el la capacidad es seleccionando su espación hipotético, que contiene una familia de funciones acotada. Por ejemplo una familia de regresiones lineales.
+
+$\hat{y} = wx +b$
+
+Aumetar su capacidad de representar otras funciones  agregando $x^2$
+
+$\hat{y}= w_1 x +w_2*x^2$
+
+Generalizando, podemos controlar la capacidad e ajuste determinando el orden del polinomio.
+
+$$\hat{y} = \sum_{i=1}^{i=q} w_i x^i$$
+
+
+Para el caso de un algoritmo de aprendizaje automático, estos se desempeñan bien cuando la capacidad de ajuste es apropiada para el problema.
+
+La capacidad de seleccionar un modelo de una familia de funciones,  al mover los parámetros. Se le llama **capacidad representacional**.
+
+Dado a la imperfección de los algoritmos de optimización, la **capacidad de representación** efectiva es por lo regular menor que la **capacidad representacional**
+
+
+
+
+
+
+## Validación de modelos, Validación cruzada.
+
+Esta basada en la idea en que si el conjunto de datos original se parte aleatoriamente en conjunto de entrenamiento y prueba varias veces se obtiene una buena medida de error de generalización.
+
+No se puede utilizar con conjuntos de datos grandes que representen una carga computacional importante. 
+
+Con conjuntos relativamente pequeños si es posible.
+
+Por cada partición diferente se obtiene un error de generalización, a estos se les promedia $\mu_{cross}\frac{1}{k}\sum_{i=1}^k e_i$, y se calcula su intervalo de confianza $\sigma_{cross},\mu_{cross}$. 
+
+
+Ver algoritmo 5.1 pág 120.
+
+
+
 
 
 
@@ -444,13 +533,21 @@ https://aga.frba.utn.edu.ar/blog/2016/09/08/ecuaciones-del-plano/
 
 https://towardsdatascience.com/geometric-interpretation-of-logistic-regression-4f85047a5860
 
+https://towardsdatascience.com/introduction-to-logistic-regression-66248243c148
+https://towardsdatascience.com/cross-entropy-for-classification-d98e7f974451
+
 https://mathinsight.org/distance_point_plane_examples
 
 https://quimicayalgomas.com/wp-content/uploads/2015/03/logaritmos-propiedades.png
 
+Derivación de la función sigmoide por regla de la cadena y regla del cociente.
+https://hausetutorials.netlify.app/posts/2019-12-01-neural-networks-deriving-the-sigmoid-derivative/#:~:text=The%20derivative%20of%20the%20sigmoid%20function%20%CF%83(x)%20is%20the,1%E2%88%92%CF%83(x).
+
+Fórmulas derivadas
+http://3con14.com/%E2%94%80-an%C3%A1lisis/80-05-derivadas/184-e-%C2%B7-tabla-de-derivadas-f%C3%B3rmulas.html
 
 
-## Interpretación Gráfica de la regresión logística
+
 
 
 
