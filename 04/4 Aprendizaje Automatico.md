@@ -43,8 +43,13 @@ Experiencia $E$
 * Dos tipos de *Experiencias*: 
 	* Supervisadas: Conjunto de datos que tienen asociados etiquetas. 
 	* No supervisadas: No existen datos etiquetados a priori. El objetivo es aprender las distribuciones de probabilidad que mejor describan a los datos.
-	* Semi supervisado. (algunos tienen etiquetas, otros no)
-	* Aprendizaje por refuerzo. El entorno que provee la experiencia cambia continuamente. 
+
+Existen otras Variaciones como por ejemplo:
+	
+	
+* Semi supervisado. (algunos tienen etiquetas, otros no)
+
+* Aprendizaje por refuerzo. El entorno que provee la experiencia cambia continuamente. 
 	
 
 Notas: La frontera entre un tipo y otro no están bien definidos. 
