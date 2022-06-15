@@ -443,19 +443,20 @@ Procedemos a utilizar optimización numérica para aproximarnos a la solución.
 
 Seleccionamos el algoritmo de gradiente ascendente para maximizar, (descendente para minimizar $-LL(\theta)$), la función $LL(\theta)$. 
 
-Para esto requerimos la derivada parcial $\frac{\partial LL(\theta)}{\partial \theta_j} $ para cada parámetro que es la que  dirigirá los parámetros hacia el óptimo.
+Para esto requerimos la derivada parcial $\frac{\partial LL(\theta)}{\partial \theta_j} $ para cada parámetro que compone al gradiente. Está función dirigirá los parámetros hacia el óptimo utilizando un algoritmo de optimización.
 
 $\frac{\partial LL(\theta)}{\partial \theta_j} = \sum_{i=1}^n [y_i-sigm(\theta^T\mathbf{x}_i+b)]x_j$
 
 
 
-## Overfitting, underfitting, VC dimension.
+## Sobre ajuste, sub ajuste , Dimensión VC.
 
 * Una meta de los algoritmos de aprendizaje automático es que no solo se ajusten a un conjunto de datos fijo, si no que sean capaces de generalizar el comportamiento con conjuntos de entradas no vistas.   
-* Hasta el momento hemos entrenado modelos optimizando el ajuste de parámetros sobre un conjunto de datos que le llamaremos "Conjuto de entrenamiento".
+* Hasta el momento hemos entrenado modelos optimizando el ajuste de parámetros sobre un conjunto de datos que le llamaremos **Conjunto de entrenamiento**.
 * Para  hacer que nuestro proceso de optimización sea uno de aprendizaje automático, tenemos que considerar la medición del **error de prueba** con un **conjunto de datos de prueba**. Este conjunto se deja fuera del proceso de optimización y se utiliza con el modelo optimizado para medir su **error de generalización**
 
 Es posible mejorar el desempeño de generalización cuando:
+
 * Se asume que los datos provienen de un mismo proceso de generación de datos.
 * La seleccion de la muestra son independientes.
 * Los conjuntos de entrenamiento y prueba son identicamente distribuidos, de una distribución de probabilidad.
@@ -475,36 +476,70 @@ Los dos aspectos que determinan el desempeño de un modelo de aprendizaje autom�
 2. Hacer que la separación del error entre el conjunto de entrenamiento y prueba sea el menor posible.
 
 
-Esos aspecto determinan el 
+Esos aspectos ayudan a detectar el 
 
 1. Sub-ajuste. El modelo es incapaz de ajustarse apropiadamente a los datos. 
 2. sobre ajuste. La distancia entre error de entrenamiento y prueba es grande. 
 
-Se puede controlar el ajsute alterando o manupulando su capacidad.
-Capacidad: Es la habilidad del modelo para ajustarse a una gran cantidad de funciones. 
+Se puede controlar el ajuste alterando o manipulando su **capacidad**.
+
+**Capacidad**: Es la habilidad del modelo para ajustarse a una gran cantidad de funciones. 
 
 
-Una manera de controlar el la capacidad es seleccionando su espación hipotético, que contiene una familia de funciones acotada. Por ejemplo una familia de regresiones lineales.
+Una manera de controlar la capacidad es seleccionando su espacio hipotético, el cual contiene una familia de funciones acotada por su estructura. Por ejemplo una familia de regresiones lineales.
 
-$\hat{y} = wx +b$
+$\hat{y} = {w_1}x +b$
 
-Aumetar su capacidad de representar otras funciones  agregando $x^2$
+Se puede aumentar su capacidad para representar otras funciones agregando $x^2$
 
-$\hat{y}= w_1 x +w_2*x^2$
+$\hat{y}= w_1 x +w_2*x^2 + b + \lambda \mathbf{w}^T \mathbf{w}$
+
+
 
 Generalizando, podemos controlar la capacidad e ajuste determinando el orden del polinomio.
 
-$$\hat{y} = \sum_{i=1}^{i=q} w_i x^i$$
+$$\hat{y} = \sum_{i=1}^{i=q} w_i x^i +b$$
 
 
 Para el caso de un algoritmo de aprendizaje automático, estos se desempeñan bien cuando la capacidad de ajuste es apropiada para el problema.
 
 La capacidad de seleccionar un modelo de una familia de funciones,  al mover los parámetros. Se le llama **capacidad representacional**.
 
-Dado a la imperfección de los algoritmos de optimización, la **capacidad de representación** efectiva es por lo regular menor que la **capacidad representacional**
+Dado a la imperfección de los algoritmos de optimización, la **capacidad de representación** efectiva es por lo regular menor que la **capacidad representacional**.
+
+**Regularización**
 
 
+Es común que en aprendizaje profundo estemos ajustando modelos con una capacidad representacional tan alta que nos produzca un sobre ajuste.
 
+
+**Definición**
+
+**Regularización:** Es cualquier modificación que hacemsos a un algoritmo de aprendizaje con el objetivo de reducir su generalizacion de error pero no su error de entrenamiento. 
+
+Regularización es uno de los problemas mas importantes de estudio a la par de optimización.
+
+(Ver figura 116)
+
+Para *regular* este efecto, una solución es agregando un regularizador a la función objetivo.
+
+$$J(\mathbf{w})= \sum_{1=i}^N [f(\mathbf{w},\mathbf{x}_i)-y_i)]^2 + \lambda \mathbf{w}^T\mathbf{w}$$
+
+$\lambda$ regula la preferencia que tenemos por valores pequeños en los parámetros.
+
+* Es un valor de penalización que regula el sobre ajuste de una función con alta capacidad representacional, como los son las redes neuronales en general.
+
+
+Retomando el ejemplo del modelo polinomial, podemos regular su capacidad representacional.
+
+(Ver figura 5.5 Y. Bengio Deep Learning)
+
+**Dimensión VC (Dimensión Vapnik-Chervonenkis)**
+Es una medida de capacidad del modelo propuesta.
+
+Es el valor mas grande posible de $m$ puntos arbitraria y binariamente clasificados, para el cual existe un clasificador que pueda obtener un error 0 de clasificación.
+
+Es el máximo número de puntos $m$ perteneciente a alguna clase binaria, que pueden ser dispuestos de manera arbitraria de tal manera que el clasificador pueda clasificarlos correctamente.
 
 
 
@@ -516,14 +551,16 @@ No se puede utilizar con conjuntos de datos grandes que representen una carga co
 
 Con conjuntos relativamente pequeños si es posible.
 
-Por cada partición diferente se obtiene un error de generalización, a estos se les promedia $\mu_{cross}\frac{1}{k}\sum_{i=1}^k e_i$, y se calcula su intervalo de confianza $\sigma_{cross},\mu_{cross}$. 
+Por cada partición diferente se obtiene un error de generalización, a estos se les promedia $\mu_{cross} = \frac{1}{k}\sum_{i=1}^k e_i$, y se calcula su intervalo de confianza $\sigma_{cross},\mu_{cross}$. 
 
 
 Ver algoritmo 5.1 pág 120.
 
 
 
+**Regularización**
 
+* 
 
 
 
