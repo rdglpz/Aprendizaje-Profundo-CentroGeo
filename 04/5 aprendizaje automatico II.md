@@ -67,14 +67,6 @@ Estos perceptrones simples estan interconectados entre si dando lugar a diferent
 
 ![neuralnetworks](figures/neuralnetworks.png)
 
-Perceptrón multi capa. Esta compuesto por perceptrones organizados por capas que propagan el estímulo  hacia adelante a través de ellas.
-
-Redes neuronales recurrentes.
-
-
-
-
-
 Un perceptrón Multicapa con propagación hacia adelante tiene la característica de  tener sus neuronas organizadas por capas y cada capa se limita a transferir la información hacia adelante desde la capa de entrada hasta la capa de salida.
 
 
@@ -82,9 +74,9 @@ Un perceptrón Multicapa con propagación hacia adelante tiene la característic
 ![DFFN](figures/DFFN.png)
 
 * Una red neuronal de propagación hacia adelante es una función universal de aproximación con 3 tipos de capas:
-  * Capa de entrada
-  * Capas intermedias 
-  * Capa de Salida
+  * Capa de entrada: es una sola y recibe un vector de entrada de algún tamaño.
+  * Capas intermedias: puede contener a partir de una, y cada capa puede conteneer varias funciones de activación llamadas neuronas. 
+  * Capa de Salida: Es una sola capa y puede tener multiples neuronas de salida.
 
 
 
@@ -160,11 +152,6 @@ El algoritmo propagación hacia atrás utiliza el principio de la regla de la ca
 **Ejemplo Formulación de backpropagation con una neurona para resolver un problema de regresión lineal **
 
 
-
-
-
-
-
 Las operaciones que se realizan (de atras hacia adelante) son
 
 Cálculo del error $E(z_i,\hat{z}_i)$ (de un solo dato)
@@ -179,21 +166,27 @@ Cálculo de la salida $\hat{z}_i$
 
 $\hat{z}_i = \mathbf{w}^T \mathbf{x}_i$
 
-Calculo de la derivada de  $\hat{z}_i$
+Cálculo de la derivada parcial de la salida  $\hat{z}_i$ con respectoa $w_i$
 
-$\frac{\partial z_i}{\partial \mathbf{w}} =  \mathbf{x}_{i}$
-
-Para calcular la derivada del error con respecto a los parámetros $\mathbf{w}$, 
-
-$\frac{\partial E}{\partial \mathbf{w}} = \frac{\partial E}{\partial \hat{z_i}} \frac{\partial z_i}{\partial \mathbf {w}}$ 
+$\frac{\partial z_i}{\partial {w}_j} =  {x}_{j,i}$
 
 
-$\frac{\partial E}{\partial \mathbf{w}} =  - \sum_{i}^n (z_i-\hat{z}_i) \mathbf{x}_{i}$ 
 
-Ejercicio:
+$$\nabla_\mathbf{w} \hat{z}^T = [\frac{\partial \hat{z}_i}{\partial {w}_1},\frac{\partial \hat{z}_i}{\partial {w}_2}] $$
 
-Hacer lo mismo pero agregando la operación sigmoide como función de activación.
+Para calcular la derivada del error con respecto a los parámetros $\mathbf{w}^T=[w_1,w_2]$, 
+
+$\frac{\partial E}{\partial {w_j}} = \frac{\partial E}{\partial \hat{z_i}} \frac{\partial z_i}{\partial  w_j}$ 
 
 
-Hacer lo mismo pero agregando una neurona a la capa oculta  con función sigmoide como función de activación.
+$\frac{\partial E}{\partial {w_j}} =  - \sum_{i}^n (z_i-\hat{z}_i){x}_{j,i}$ 
+
+$$\nabla_\mathbf{w} E^	T = [\frac{\partial E}{\partial {w}_1},\frac{\partial E}{\partial {w}_2}] $$
+
+
+
+
+
+
+
 
