@@ -1,12 +1,14 @@
-#Unidad 4: Aprendizaje Automático I
+# Unidad 4: Aprendizaje Automático I
 
-##Introducción
+## Introducción
 * Veremos los conceptos básicos para entender algoritmos mas avanzados de aprendizaje profundo.
-* Aprendizaje Automático es una forma de aprendizaje estadístico aplicado orientado al uso intensivo del poder de cómputo para estimar modelos grandes y complicados y no tanto para estimar intervalos de confianza.
-* Los modelos de aprendizje Automático se estudian desde dos enfoques generales, estimadores de parámetros frequentistas e inferencia bayesiana. 
+* Aprendizaje Automático es una forma de aprendizaje estadístico aplicado y orientado al uso intensivo del poder de cómputo para estimar modelos grandes y complicados pero no tanto para estimar intervalos de confianza.
+* Los modelos de aprendizaje Automático se estudian desde dos enfoques generales:
+1) Estimadores de parámetros frequentistas 
+2) inferencia bayesiana. 
 
 
-##Componentes de un modelo de aprendizaje automático.
+## Componentes de un modelo de aprendizaje automático.
 
 Según Mitchell 1997, "Un programa de computadora se dice que aprende de la experiencia $E$, con respecto a algunas clases de tareas $T$, y medida de desempeño $P$, si su desempeño en tareas realizar tareas $T$, mejora con la experiecia $E$ según $P$". 
 
@@ -62,8 +64,6 @@ Comenzamos definiendo los *ingredientes* necesarios para generar un sistema de a
 
 
 ## Regresión Lineal. 
-
-
 
 El modelo consiste en procesar vectores de entrada $\mathbf{x} \in R^m$ y producir un pronóstico o predicción de salida $y \in R$.
 
@@ -185,9 +185,9 @@ Dado un conjunto $D\in\{x_i,y_i\}_{i=1}^m$ donde la respuesta esta dada por una 
 
 Ejemplo "hiperplano" bidimensional
 
-![1_C_9o-V8HXabrzb9Z3IbR6w](figures/1_C_9o-V8HXabrzb9Z3IbR6w.jpg)
+![1_C_9o-V8HXabrzb9Z3IbR6w](https://i.ibb.co/9ZBZkJ7/regresion-logistica.jpg)
 
-Pasos para encontrar el hiperplano graficamente que separa dos clases.
+Pasos para encontrar el hiper plano gráficamente que separa dos clases.
 
 1. Ubicar en el plano los pesos $P(w_1,w_2)$ con respecto al origen. Desplazar si $b \neq 0$ y trazar el vector. 
 2. Encontrar un hiperplano perpendicular al vector de pesos en el plano.
@@ -200,7 +200,8 @@ Los pesos $\mathbf{w}$ se representan geométricamente en un plano como un punto
 Ejemplo *: 
 
 1. Dibujar el plano separador correspondiente a los pesos $w_1 = 1, w_2 = -1$
-2. Dibujar el plano separador correspondiente a los pesos $w_1 = 2 w_2 = 4, b=2$
+
+2. Dibujar el plano separador correspondiente a los pesos $w_1 = 2, w_2 = 4, b=2$
 
 Para encontrar el plano perpendicular $\mathbf{v}$ recordar que $\mathbf{w}\cdot \mathbf{v} = 0$
 
@@ -216,7 +217,7 @@ $$d_i = \frac{\mathbf{w}^T \mathbf{x_i}} {||\mathbf{w}||}$$
 
 $$d_i = \frac{\mathbf{w}^T \mathbf{x_i} +b} {||\mathbf{w}||}$$
 
-donde $\mathbf{||w||} = (\sum_{i=1}^{m}w_i^{2}) ^{1/2} $ **es la magnitud o módulo del vector**.
+donde $\mathbf{||w||} = (\sum_{i=1}^{m}w_i^{2}) ^{1/2}$ **es la magnitud o módulo del vector**.
 
 Por lo tanto si $d_i$>0 entonces $x_i$ pertenece a la clase positiva.
 
@@ -240,13 +241,11 @@ Dado un punto $P_0 = \mathbf{x}^0 = [x_1^0,x_2^0,x_3^0] = [0,0,0]$ que es el  pu
 
 Para encontrar la ecuación del hiperplano se requiere otro punto $P$ que forma parte del hiperplano y expresa como $P \in \pi$, donde $P= \mathbf{x} = [x_1,x_2,x_3]$ no lo conocemos pero  satisface el producto interno:
 
- $\overrightarrow {P_0P} \cdot \overrightarrow{\mathbf{w}}=0$
+ $\overrightarrow {P_0 P} \cdot \overrightarrow{\mathbf{w}}=0$
 
-$\overrightarrow {P_0P} = [(x_1-x^0_1),(x_2-x_2^0),(x_3-x_3^0)] $
+$\overrightarrow {P_0 P} = [(x_1 -x^0_1),(x_2-x_2^0),(x_3-x_3^0)]$
 
-$[(x_1-x^0_1),(x_2-x_2^0),(x_3-x_3^0)] \cdot (w_1,w_2,w_3) = 0 $
-
-
+$[(x_1-x^0_1),(x_2-x_2^0),(x_3-x_3^0)] \cdot (w_1,w_2,w_3) = 0$
 
 $w_1(x_1-x_1^0)+w_2(x_2-x_2^0)+w_3(x_3-x_3^0) = 0$
 
@@ -255,13 +254,11 @@ agrupando términos
 $w_1x_1 + w_2x_2 + w_3x_3 + (-w_1x_1^0 -w_2x_2^0-w_3x_3^0) = 0$
 
 
-donde: $d= (-w_1x_1^0 -w_2x_2^0-w_3x_3^0) $
+donde: $d= (-w_1x_1^0 -w_2x_2^0-w_3x_3^0)$
 
 por lo tanto la ecuación general del plano es:
 
 $w_1x_1 + w_2x_2 + w_3x_3 + d = 0$
-
-
 
 Ejercicio (1.a). En una dimensión $m = 2$. Encontrar la ecuación del plano $\pi$ que pasa por las coordenadas $P_{0} = [0,0]$ y es la frontera de decisión de un clasificador lineal con pesos $\mathbf{w}=[1,2]$.
 
@@ -317,10 +314,11 @@ Problema de esta formulación: Es muy sensible a los  datos atípicos (outliers)
 
 ![1_1YmHqnQvz4OibS2i9lkODg](figures/1_1YmHqnQvz4OibS2i9lkODg.jpg)
 
-
-<img src="figures/1_Xj1YlkHlIv4_z6HPskJUZA.gif" alt="1_Xj1YlkHlIv4_z6HPskJUZA" style="zoom:50%;" />
+**La sigmoide**
 
 $$sigm(z) = \frac{1}{1+exp(-z)}$$
+
+![enter image description here](https://i.ibb.co/55pH0XJ/sigmoide.gif)
 
 
 Esta función regresa valores entre 0.5 y 1 cuando $y_i(\mathbf{w}^T \mathbf{x}_i + b)>0$*
@@ -417,8 +415,7 @@ Podemos simplificarla por razones de estabilidad numérica removiendo componente
 
 Esta expresión se escribe:
 
-$LL(\theta) = log (\prod_{i=1}^m  sigm(\mathbf{w}^T\mathbf{x}_i +b)^{y_i} \cdot [1-sigm(\mathbf{w}^T\mathbf{x}_i+b)]^{(1-{y_i})}) $ 
-
+$LL(\theta) = log (\prod_{i=1}^m  sigm(\mathbf{w}^T\mathbf{x}_i +b)^{y_i} \cdot [1-sigm(\mathbf{w}^T\mathbf{x}_i+b)]^{(1-{y_i})})$ 
 
 
 Qué paso sigue? **Acordarse de las propiedades de los Logaritmos!!!.**
@@ -519,7 +516,7 @@ Es común que en aprendizaje profundo estemos ajustando modelos con una capacida
 
 Regularización es uno de los problemas mas importantes de estudio a la par de optimización.
 
-(Ver figura 116)
+![enter image description here](https://i.ibb.co/QQYjRnr/regularization.png)
 
 Para *regular* este efecto, una solución es agregando un regularizador a la función objetivo.
 
@@ -535,11 +532,15 @@ Retomando el ejemplo del modelo polinomial, podemos regular su capacidad represe
 (Ver figura 5.5 Y. Bengio Deep Learning)
 
 **Dimensión VC (Dimensión Vapnik-Chervonenkis)**
-Es una medida de capacidad del modelo propuesta.
+Es una medida teórica de capacidad del modelo propuesta por [Vladimir Vapnik](https://es.wikipedia.org/w/index.php?title=Vladimir_Vapnik&action=edit&redlink=1 "Vladimir Vapnik (aún no redactado)") y [Alexey Chervonenkis](https://es.wikipedia.org/w/index.php?title=Alexey_Chervonenkis&action=edit&redlink=1 "Alexey Chervonenkis (aún no redactado)").
 
 Es el valor mas grande posible de $m$ puntos arbitraria y binariamente clasificados, para el cual existe un clasificador que pueda obtener un error 0 de clasificación.
 
 Es el máximo número de puntos $m$ perteneciente a alguna clase binaria, que pueden ser dispuestos de manera arbitraria de tal manera que el clasificador pueda clasificarlos correctamente.
+
+[Figura de ejemplo Pendiente calcular dimensión VC con una linea y con algún otro modelo, Mientras se puede seguir el ejemplo de wikipedia] 
+![Ejemplo gráfico Wikipedia](https://i.ibb.co/kDc1vbg/VC-dim-example.png)
+https://en.wikipedia.org/wiki/Vapnik%E2%80%93Chervonenkis_dimension
 
 
 
@@ -556,11 +557,8 @@ Por cada partición diferente se obtiene un error de generalización, a estos se
 
 Ver algoritmo 5.1 pág 120.
 
+![enter image description here](https://i.ibb.co/py9RyMg/kfold-validation.png)
 
-
-**Regularización**
-
-* 
 
 
 
@@ -594,3 +592,7 @@ http://3con14.com/%E2%94%80-an%C3%A1lisis/80-05-derivadas/184-e-%C2%B7-tabla-de-
 
 
 
+
+
+
+> Written with [StackEdit](https://stackedit.io/).

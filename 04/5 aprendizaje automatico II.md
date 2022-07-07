@@ -1,4 +1,5 @@
-#Aprendizaje Automático parte II
+
+# Aprendizaje Automático parte II
 
 # Redes neuronales
 
@@ -6,7 +7,7 @@
 * Las ideas y descubrimientos en neurociencias sirven como inspiración en la construcción de modelos matemáticos - computacionales capaces de resolver problemas complejos de clasificación y regresión como son las redes neuronales artificiales. 
 * Un esquema simplificado de una neurona biológica de un tipo se muestra en la siguiente figura.
 
-![Screen Shot 2021-08-19 at 18.30.46](figures/dendrita.png)
+![Screen Shot 2021-08-19 at 18.30.46](https://i.ibb.co/JjMrzGR/dendrita.png)
 
 * La figura muestra las partes de una neurona que son de interés para la construcción de estos modelos matemáticos.
   * SOMA: Cuerpo central de la neurona la cual procesa la información de entrada y la transfiere al axón.
@@ -65,13 +66,13 @@ Estos perceptrones simples estan interconectados entre si dando lugar a diferent
 
 
 
-![neuralnetworks](figures/neuralnetworks.png)
+![neuralnetworks](https://i.ibb.co/N6Rrg2r/neuralnetworks.png)
 
 Un perceptrón Multicapa con propagación hacia adelante tiene la característica de  tener sus neuronas organizadas por capas y cada capa se limita a transferir la información hacia adelante desde la capa de entrada hasta la capa de salida.
 
 
 
-![DFFN](figures/DFFN.png)
+![DFFN](https://i.ibb.co/ZLCGc1Z/DFFN.png)
 
 * Una red neuronal de propagación hacia adelante es una función universal de aproximación con 3 tipos de capas:
   * Capa de entrada: es una sola y recibe un vector de entrada de algún tamaño.
@@ -135,7 +136,7 @@ $$z = f(y)$$
 
  La regla de la cadena nos dice que para calcular la derivda de $z$ podemos hacerlo de esta manera:
 
- $\frac{dz}{dx} = \frac{dz}{dy}\frac{dy}{dx} $
+ $\frac{dz}{dx} = \frac{dz}{dy}\frac{dy}{dx}$
 
 Esto se puede generalizar para calcular funciones que reciben vectores. 
 
@@ -149,24 +150,30 @@ El algoritmo propagación hacia atrás utiliza el principio de la regla de la ca
 
 
 
-**Ejemplo Formulación de backpropagation con una neurona para resolver un problema de regresión lineal **
+**Ejemplo Formulación de Propagación hacia atrás (backpropagation) con una neurona para resolver un problema de regresión lineal con la regla de la cadena**
+
+Modelo de regresión lineal sin sesgo.
+
+$$\mathbf{w}^T \mathbf{x}_i  = \hat{z}_i$$
+
+donde el error está dado por $e_i = \frac{1}{2}(z_i-\hat{z}_i)^2$
 
 
-Las operaciones que se realizan (de atras hacia adelante) son
+Las operaciones que se realizan (de atrás hacia adelante) son
 
-Cálculo del error $E(z_i,\hat{z}_i)$ (de un solo dato)
+Cálculo del error en el conjunto de entrenamiento. 
 
 $E= \frac{1}{2} \sum_{i\in \text{training}}^n (z_i-\hat{z}_i)^2$
 
 Derivada del Error 
 
-$\frac{\partial E}{\partial \hat{z_i}} = - \sum_{i}^n (z_i-\hat{z}_i)$
+$\frac{\partial E}{\partial \hat{z_i}} = - \sum_{i \in \text{training}}^n (z_i-\hat{z}_i)$
 
-Cálculo de la salida $\hat{z}_i$
+Cálculo de la salida $\hat{z}_i$. 
 
 $\hat{z}_i = \mathbf{w}^T \mathbf{x}_i$
 
-Cálculo de la derivada parcial de la salida  $\hat{z}_i$ con respectoa $w_i$
+Cálculo de la derivada parcial de la salida  $\hat{z}_i$ con respecto a $w_j$
 
 $\frac{\partial z_i}{\partial {w}_j} =  {x}_{j,i}$
 
@@ -185,8 +192,117 @@ $$\nabla_\mathbf{w} E^	T = [\frac{\partial E}{\partial {w}_1},\frac{\partial E}{
 
 
 
+**Diseño de la Arquitectura de la red neuronal multicapa, el caso de la red neuronal profunda multicapa.** 
+
+La primera capa puede ser expresada
+
+$$h^{(1)} = g^{(1)}(W^{(1)T}X+b^{(1)})$$
+
+Las capas intermedias tienen la siguiente estructura:
+
+$$h^{(2)} = g^{(2)}(W^{(2)T}h^{(1)}+b^{(2)})$$
+
+Esta expresión puede representarse graficamente.
+
+
+
+Hasta ahora hemos practicado con arquitecturas muy simples. 
+
+Para calcular el gradiente de este tipo de red neuronal hacia adelante con varias capas intermedias, se requiere considerar un modelo dependiente de los parámetros (la respuesta del modelo depende de los valores de los parámetros). 
+
+
+**Modelo dependiente de los parámetros **
+
+![enter image description here](https://i.ibb.co/TMv2p3Y/parameter-Dependet-Model.png)
+
+Ejemplo:
+
+Calcular el gradiente $\nabla_W z$ del siguiente modelo.
+
+
+
+![enter image description here](https://i.ibb.co/YXcGXD1/Example-Parameter-Dependet-Model.png)
+
+Para $\mathbf{Y}$, las derivadas parciales son:
+ 
+$$(\nabla_{\mathbf{Y}}{z})^T =\left[\frac{\partial {z}}{\partial y_1},\frac{\partial z}{\partial y_2} \right]$$
+
+Para cada elemento $w_i$ en $\mathbf{W}$ la derivada parcial es equivalente a:
+
+$$\frac{\partial{{z}}}{ \partial w_i} = \sum_{j=1}^2 \frac{\partial {z}}{\partial y_j} \frac{\partial y_j}{\partial w_i}$$
+
+
+Esto se puede escribir de una manera mas compacta, como el producto de la matriz Jacobiana transpuesta $\frac{\partial \mathbf{y}}{\partial {W}}^T$ por el gradiente $\nabla_{\mathbf{y}}{z}$:
+
+$$\nabla_{W} {z} = \left( \frac{\partial \mathbf{y}}{\partial {W}}\right)^T \nabla_{\mathbf{y}}{z}$$
+
+Esta es la operación detrás del algoritmo de propagación hacia atrás.
+
+**Algoritmo de propagación hacia adelante con múltiples capas intermedias (*Multi Layer Perceptron*)**
+
+![enter image description here](https://i.ibb.co/M26CgjL/forward-prop.png)
+
+**Algoritmo de propagación hacia atrás**.
+
+![enter image description here](https://i.ibb.co/1bWVvMZ/backprop-alg.png)
+1) Teorema de la aproximación Universal. (Impulsó la motivación del estudio de redes neuronales)
+
+"Las redes neuronales con propagación hacia adelante con una salida lineal (Hornik et al,. Cybenko et al., 1989) y al menos una capa oculta con alguna cualquier función no lineal aplastada (*squashing function*) e.g., una de tipo sigmoidal), puede aproximar cualquier función (Medible por Borel)  continua y acotada en cualquier dimensión $\R^n$ con **cero error de aproximación**, siempre y cuando la red neuronal tenga suficientes neuronas.
+
+En 1990, Hornik et al., probó que las derivadas de este tipo de redes neuronales también se aproximan a las derivadas reales.
+
+En 1993 (Leshno et. al. 1993) se probó que también este teorema se sostiene usando otro tipo de funciónes como ReLu.
+
+Aunque es un teorema muy fuerte que motiva el estudio de redes neuronales, no dice que tan grande tiene que ser el modelo para aproximar (Barron 1993).
+
+Si una red neuronal con propagación hacia adelante es un aproximador universal, ¿Porqué estudiar modelos profundos?
+
+R: Porque la profundidad de los modelos permite reducir el número de parámetros de optimización sin sacrificar capacidad de representatividad.
+
+El teorema de Montufar en 2014, apoyó  la motivación del estudio de arquitecturas profundas.  Dice que el numero de regiones lineales que pueden sacarse de un rectificador lineal, con 
+
+* $d$ entradas
+* $l$ capas de profundidad
+* $n$ unidades está dado por:
+
+$$O \left( \left( \overset{d}{n} \right)^{d(l-1)} n^d\right)$$
+
+Consideraciones:
+
+* Escoger el número de capas ocultas.
+* Escoger el tamaño de cada capa
+* La arquitectura ideal para una tarea de clasificación debe ser buscada revisando y monitoreando su error de generalización con validación cruzada. 
+
+Propiedades de Aproximación Universal y profundidad.
+
+
+
+El teorema de la aproximación universal de Hornik 1989 prueba que una red de propagación hacia adelante con una entrada lineal y con al menos una capa oculta compuesta por alguna función no lineal puede aproximar cualquier función con dimensión finita a otro con cero error, siempre y cuando la red neuronal tenga suficientes neuronas.
+
+Si una sola capa oculta puede aproximar cualquier función, Entonces porque estudiar redes neuronales con propagación hacia adelante con mas de una capa intermedia? 
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+> Written with [StackEdit](https://stackedit.io/).
