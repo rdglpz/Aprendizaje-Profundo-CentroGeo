@@ -104,13 +104,11 @@ El entrenamiento de este tipo de funciones al igual que los modelos lineales de 
 
     $\frac{{\partial \hat{y} }}{{\partial {w \in {\theta_g \theta_x} }}}$
 
-    * Actualización de los parametros $\theta$. En redes neuronales esto se hace con un algoritmo que propaga el error de la última neurona hacia atras.
+    * Actualización de los parámetros $\theta$. En redes neuronales esto se hace con un algoritmo que propaga el error de la última neurona hacia atrás.
 
 
 
 Evaluar una función que representa una red neuronal tiene sus consideraciones.
-
-
 
 
 
@@ -245,13 +243,17 @@ Esta es la operación detrás del algoritmo de propagación hacia atrás.
 **Algoritmo de propagación hacia atrás**.
 
 ![enter image description here](https://i.ibb.co/1bWVvMZ/backprop-alg.png)
+
+**Teorema de la aproximación universal**
+
 1) Teorema de la aproximación Universal. (Impulsó la motivación del estudio de redes neuronales)
 
 "Las redes neuronales con propagación hacia adelante con una salida lineal (Hornik et al,. Cybenko et al., 1989) y al menos una capa oculta con alguna cualquier función no lineal aplastada (*squashing function*) e.g., una de tipo sigmoidal), puede aproximar cualquier función (Medible por Borel)  continua y acotada en cualquier dimensión $\R^n$ con **cero error de aproximación**, siempre y cuando la red neuronal tenga suficientes neuronas.
 
 En 1990, Hornik et al., probó que las derivadas de este tipo de redes neuronales también se aproximan a las derivadas reales.
 
-En 1993 (Leshno et. al. 1993) se probó que también este teorema se sostiene usando otro tipo de funciónes como ReLu.
+
+En 1993 (Leshno et. al. 1993) se probó que también este teorema se sostiene usando otro tipo de funciones como ReLu.
 
 Aunque es un teorema muy fuerte que motiva el estudio de redes neuronales, no dice que tan grande tiene que ser el modelo para aproximar (Barron 1993).
 
@@ -259,7 +261,9 @@ Si una red neuronal con propagación hacia adelante es un aproximador universal,
 
 R: Porque la profundidad de los modelos permite reducir el número de parámetros de optimización sin sacrificar capacidad de representatividad.
 
-El teorema de Montufar en 2014, apoyó  la motivación del estudio de arquitecturas profundas.  Dice que el numero de regiones lineales que pueden sacarse de un rectificador lineal, con 
+**Arquitecturas profundas en redes neuronales**
+
+El teorema de Montufar 2014, apoyó  la motivación del estudio de arquitecturas profundas.  Dice que el numero de regiones lineales que pueden *sacarse* de un rectificador lineal, con 
 
 * $d$ entradas
 * $l$ capas de profundidad
@@ -267,19 +271,20 @@ El teorema de Montufar en 2014, apoyó  la motivación del estudio de arquitectu
 
 $$O \left( \left( \overset{d}{n} \right)^{d(l-1)} n^d\right)$$
 
+
 Consideraciones:
 
 * Escoger el número de capas ocultas.
 * Escoger el tamaño de cada capa
 * La arquitectura ideal para una tarea de clasificación debe ser buscada revisando y monitoreando su error de generalización con validación cruzada. 
 
-Propiedades de Aproximación Universal y profundidad.
+Referencias
+https://www.youtube.com/watch?v=pauPCy_s0Ok&ab_channel=TheIndependentCode
+https://towardsdatascience.com/understanding-backpropagation-abcc509ca9d0
+https://www.linkedin.com/pulse/implementation-from-scratch-forward-back-propagation-layer-coy-ulloa/
 
 
 
-El teorema de la aproximación universal de Hornik 1989 prueba que una red de propagación hacia adelante con una entrada lineal y con al menos una capa oculta compuesta por alguna función no lineal puede aproximar cualquier función con dimensión finita a otro con cero error, siempre y cuando la red neuronal tenga suficientes neuronas.
-
-Si una sola capa oculta puede aproximar cualquier función, Entonces porque estudiar redes neuronales con propagación hacia adelante con mas de una capa intermedia? 
 
 
 

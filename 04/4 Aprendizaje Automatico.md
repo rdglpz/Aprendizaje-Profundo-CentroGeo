@@ -4,7 +4,7 @@
 * Veremos los conceptos básicos para entender algoritmos mas avanzados de aprendizaje profundo.
 * Aprendizaje Automático es una forma de aprendizaje estadístico aplicado y orientado al uso intensivo del poder de cómputo para estimar modelos grandes y complicados pero no tanto para estimar intervalos de confianza.
 * Los modelos de aprendizaje Automático se estudian desde dos enfoques generales:
-1) Estimadores de parámetros frequentistas 
+1) Estimadores de parámetros frecuentistas 
 2) inferencia bayesiana. 
 
 
