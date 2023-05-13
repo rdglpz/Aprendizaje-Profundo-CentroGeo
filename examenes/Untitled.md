@@ -1,1 +1,0 @@
-Sergio Ivvan Valdez Peña
