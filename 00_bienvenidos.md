@@ -9,11 +9,11 @@ Ing. en Sistemas computacionales por el Instituto Tecnológico de Morelia.
 
 
 ```
-----Opcion 1------
-Votos: 2
 
-Parcial 1 2, 3
-Participación	5%. 
+
+7 Unidades evaluadas en 3 partes.
+
+Participación	 5%. 
 Tareas			35%
 Exámenes 		60%
 -------------------
@@ -30,8 +30,9 @@ Calificación mínima aprobatoria 70/100.
 
 Notas:
 
-* Los exámenes serían teórico-práctico y el último un proyecto.
+* Las evaluaciones serán teórico-práctico y el último un proyecto.
 * La asistencia está implícita en la participación.
+* 
 
 
 
